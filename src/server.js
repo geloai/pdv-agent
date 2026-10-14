@@ -7,9 +7,19 @@ import { openDb, ROOT } from './db.js';
 import { loadPeriod, reconcile, runReconciliation, applyCorrections, totalsOf } from './core/reconcile.js';
 import { runAgent } from './ai/pipeline.js';
 import { processMap } from './web/process-map.js';
+import { importPortfolio, importClientPeriod } from './import.js';
 
 const DATA_DIR = join(ROOT, 'data', 'generated');
 const db = openDb();
+
+// Fresh deployment (e.g. Render): build the database from the committed demo data.
+if (!db.prepare('SELECT COUNT(*) AS n FROM clients').get().n) {
+  importPortfolio(db, join(DATA_DIR, 'ured.json'));
+  for (const p of db.prepare('SELECT client_id, period FROM periods WHERE ima_podatke = 1').all()) {
+    importClientPeriod(db, { clientId: p.client_id, period: p.period, dir: join(DATA_DIR, p.client_id, p.period) });
+  }
+  console.log('Baza napunjena demo podacima.');
+}
 const app = express();
 app.use(express.json());
 app.use(express.static(join(ROOT, 'src', 'web', 'public')));

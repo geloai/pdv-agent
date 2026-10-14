@@ -9,6 +9,10 @@ const signed = (cents) => (cents > 0 ? '+' : cents < 0 ? '−' : '') + eur(Math.
 const hrDate = (iso) => (iso ? new Date(`${iso}T12:00:00`).toLocaleDateString('hr-HR', { day: 'numeric', month: 'numeric', year: 'numeric' }) : '');
 const MONTHS = ['siječanj', 'veljača', 'ožujak', 'travanj', 'svibanj', 'lipanj', 'srpanj', 'kolovoz', 'rujan', 'listopad', 'studeni', 'prosinac'];
 const periodLabel = (p) => { const [y, m] = p.split('-'); return `${MONTHS[Number(m) - 1]} ${y}.`; };
+const dueText = (iso) => {
+  const d = daysUntil(iso);
+  return d > 1 ? `za ${d} dana` : d === 1 ? 'sutra' : d === 0 ? 'danas' : 'rok je prošao (demo)';
+};
 const daysUntil = (iso) => {
   const today = new Date();
   return Math.round((new Date(`${iso}T00:00:00`) - new Date(today.getFullYear(), today.getMonth(), today.getDate())) / 86400000);
@@ -118,7 +122,7 @@ async function renderPortfolio() {
       </div>
     </div>
     <div class="tiles">
-      <div class="card tile"><div class="label">Rok za predaju</div><div class="value">${hrDate(rok)}</div><div class="sub ${daysUntil(rok) <= 7 ? 'deadline soon' : ''}">za ${daysUntil(rok)} dana</div></div>
+      <div class="card tile"><div class="label">Rok za predaju</div><div class="value">${hrDate(rok)}</div><div class="sub ${daysUntil(rok) <= 7 ? 'deadline soon' : ''}">${dueText(rok)}</div></div>
       <div class="card tile"><div class="label">Spremno za predaju</div><div class="value">${ready} / ${klijenti.length}</div></div>
       <div class="card tile"><div class="label">Otvorene stavke</div><div class="value">${open}</div><div class="sub">za pregled ili od klijenta</div></div>
     </div>
@@ -163,7 +167,7 @@ function drawClient(runlog = '') {
         <p class="eyebrow">PDV · ${esc(periodLabel(k.period))}</p>
         <h1>${esc(k.naziv)}</h1>
         <div class="meta"><span class="mono">OIB ${esc(k.oib)}</span><span>${esc(k.djelatnost)}</span><span>Vlasnik: ${esc(k.vlasnik)}</span>
-          <span class="deadline ${days <= 7 ? 'soon' : ''}">Rok ${hrDate(k.rok_prijave)} (za ${days} dana)</span></div>
+          <span class="deadline ${days <= 7 ? 'soon' : ''}">Rok ${hrDate(k.rok_prijave)} (${dueText(k.rok_prijave)})</span></div>
       </div>
       <div style="text-align:right">${statusBadge(k.status)}<div style="margin-top:10px"><button class="btn ${s.run ? '' : 'btn-primary'}" id="run">${s.run ? 'Ponovno pokreni' : 'Pokreni uskladu'}</button></div></div>
     </div>
