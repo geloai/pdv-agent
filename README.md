@@ -1,6 +1,6 @@
 # PDV Agent: AI-assisted VAT reconciliation for accounting firms
 
-An AI agent that prepares the monthly Croatian VAT return (PDV) for an accounting practice. It reconciles the client's books with fiscalized eRačuni (Fiskalizacija 2.0) and the bank statement, reads foreign PDF invoices, drafts the VAT return and EC Sales List (ZP), and flags every exception green / orange / red with a plain-language explanation. The accountant reviews only the exceptions and signs off.
+An AI agent that prepares the monthly Croatian VAT return (PDV) for an accounting practice. It reconciles the client's books with fiscalized eRačuni (Fiskalizacija 2.0) and the bank statement, reads foreign PDF invoices, drafts the VAT return and EC Sales List (ZP), and flags every exception green / orange / red with a plain-language explanation. The accountant reviews only the exceptions and signs off. The interface is in Croatian, since it's built for Croatian accounting teams.
 
 **Live demo:** [pdv-agent-wu6l.onrender.com](https://pdv-agent-wu6l.onrender.com) (free instance: the first load can take ~50 s) · **Video walkthrough (90 s):** _coming soon_
 
