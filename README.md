@@ -78,7 +78,7 @@ Run `npm test` to verify (20 tests, offline).
 
 ## Run it locally
 
-Requires Node.js 22+.
+Requires Node.js 24.
 
 ```bash
 npm install
