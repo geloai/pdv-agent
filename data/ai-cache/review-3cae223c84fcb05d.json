@@ -1,0 +1,116 @@
+{
+  "data": {
+    "nalazi": [
+      {
+        "indeks": 0,
+        "objasnjenje": "Račun 9921034/2/9 (isti dobavljač, broj i iznos 487,38 €) upisan je u knjigu URA dva puta, pod rednim brojevima 7 i 16. Zbog toga je pretporez iskazan dvaput, pa je PDV za uplatu prenizak za 97,48 €.",
+        "preporuka": "Stornirati jedno od dvaju knjiženja (rb. 7 ili rb. 16) u knjizi URA prije predaje PDV prijave za 2026-09.",
+        "pravilo_id": "R-DUPLI",
+        "sigurnost": "visoka",
+        "treba_strucnu_provjeru": false
+      },
+      {
+        "indeks": 1,
+        "objasnjenje": "Račun 77/1/1 proknjižen je s pretporezom 245,00 €, ali ga nema među zaprimljenim fiskaliziranim eRačunima. Od 1. 1. 2026. u tuzemnom B2B prometu pretporez se može odbiti samo na temelju eRačuna, a papirnati ili PDF račun nije valjana isprava. Porezna uprava vidi to odstupanje iz fiskalizacijskih podataka.",
+        "preporuka": "Isključiti pretporez od 245,00 € iz prijave za 2026-09 i zatražiti od dobavljača da izda eRačun, pa pretporez iskazati tek nakon njegova zaprimanja.",
+        "pravilo_id": "R-ERACUN",
+        "sigurnost": "visoka",
+        "treba_strucnu_provjeru": false
+      },
+      {
+        "indeks": 2,
+        "objasnjenje": "Nordtech Systems GmbH, porezni obveznik iz Njemačke, izdao je račun bez PDV-a, a prema računu riječ je o usluzi. Mjesto oporezivanja je u RH, pa Nordtech Adriatic kao primatelj mora sam obračunati PDV 25 % (4.625,00 €) i istodobno ga odbiti kao pretporez. Iznos za uplatu se ne mijenja, ali su PDV obrazac i PDV-S bez toga netočni.",
+        "preporuka": "Proknjižiti račun URA_NS-IC-2026-0917 kao primljenu uslugu iz EU uz obračun i odbitak PDV-a od 4.625,00 € te ga uključiti u PDV prijavu i obrazac PDV-S.",
+        "pravilo_id": "R-EU-USLUGE-PRIMLJENE",
+        "sigurnost": "srednja",
+        "treba_strucnu_provjeru": false
+      },
+      {
+        "indeks": 3,
+        "objasnjenje": "Račun 208/1/1 izdan je kupcu Nordtech Systems GmbH (DE362479498), poreznom obvezniku iz Njemačke, ali je razvrstan kao „OSLOBODJENO_OSTALO”. Takva se usluga oporezuje u državi primatelja i mora biti iskazana kao obavljena usluga u EU te u obrascu ZP (osnovica 14.200,00 €). Iznos za uplatu se ne mijenja, ali su prijava i ZP netočni.",
+        "preporuka": "Prerazvrstati račun 208/1/1 u obavljene usluge u EU, provjeriti napomenu o prijenosu porezne obveze na računu i upisati osnovicu 14.200,00 € u obrazac ZP pod PDV brojem DE362479498.",
+        "pravilo_id": "R-EU-USLUGE-OBAVLJENE",
+        "sigurnost": "visoka",
+        "treba_strucnu_provjeru": false
+      },
+      {
+        "indeks": 4,
+        "objasnjenje": "Račun 96/1/1 ima datum 2026-10-03, dakle nakon završetka razdoblja 2026-09. Pretporez se odbija u razdoblju u kojem postoji valjan račun, pa 800,00 € pretporeza pripada sljedećem razdoblju, a ne rujanskoj prijavi.",
+        "preporuka": "Isključiti račun 96/1/1 iz knjige URA i prijave za 2026-09 te ga proknjižiti u razdoblju 2026-10.",
+        "pravilo_id": "R-RAZDOBLJE",
+        "sigurnost": "visoka",
+        "treba_strucnu_provjeru": false
+      },
+      {
+        "indeks": 5,
+        "objasnjenje": "U knjizi je za račun 742/1/1 upisana osnovica 1.250,00 € i PDV 312,50 €, a na eRačunu stoji osnovica 1.520,00 € i PDV 380,00 €. Kod razlike vrijedi isprava, a plaćanje od 1.900,00 € od 2026-09-21 potvrđuje iznos s eRačuna. Ispravkom se pretporez povećava, pa se PDV za uplatu smanjuje za 67,50 €.",
+        "preporuka": "Ispraviti knjiženje računa 742/1/1 na osnovicu 1.520,00 € i PDV 380,00 € prema eRačunu URA_742-1-1.xml.",
+        "pravilo_id": "R-IZNOS",
+        "sigurnost": "visoka",
+        "treba_strucnu_provjeru": false
+      },
+      {
+        "indeks": 6,
+        "objasnjenje": "Zaprimljeni eRačun 12044/1/1 od 2026-09-30 (osnovica 148,50 €, PDV 37,13 €) nije upisan u knjigu URA. Sve zaprimljene eRačune treba evidentirati, a Porezna uprava to odstupanje vidi. Puni odbitak od 37,13 € moguć je samo ako trošak nije npr. reprezentacija ili trošak osobnog vozila, a to iz dostupnih podataka nije vidljivo.",
+        "preporuka": "Provjeriti s klijentom namjenu troška s eRačuna 12044/1/1, a zatim ga proknjižiti u URA za 2026-09 uz odgovarajući odbitak pretporeza.",
+        "pravilo_id": "R-KNJIZENJE",
+        "sigurnost": "visoka",
+        "treba_strucnu_provjeru": true
+      },
+      {
+        "indeks": 7,
+        "objasnjenje": "Trošak na računu 881/2/1 opisan je kao „Poslovni ručak s klijentom - reprezentacija”, a za reprezentaciju se pretporez ne priznaje. Proknjiženo je 37,18 € pretporeza umjesto 0,00 €. Razvrstavanje se temelji na opisu troška, a ne na provjeri same isprave.",
+        "preporuka": "Potvrditi da se radi o ugošćivanju poslovnog partnera, a ne o službenom putu zaposlenika, te pretporez od 37,18 € prebaciti u trošak bez prava na odbitak.",
+        "pravilo_id": "R-REPREZENTACIJA",
+        "sigurnost": "srednja",
+        "treba_strucnu_provjeru": false
+      },
+      {
+        "indeks": 8,
+        "objasnjenje": "Za trošak osobnog vozila na računu 55120/4/2 odbijen je cijeli pretporez od 103,20 €, a priznaje se 50 %, tj. 51,60 €. Postoje iznimke, npr. vozila koja se koriste isključivo za djelatnost. Iz dokumenata se ne vidi koje je vozilo u pitanju ni kako se koristi.",
+        "preporuka": "Provjeriti s klijentom vrstu vozila i način korištenja. Ako ne postoji iznimka, umanjiti pretporez na 51,60 €.",
+        "pravilo_id": "R-VOZILA",
+        "sigurnost": "srednja",
+        "treba_strucnu_provjeru": true
+      },
+      {
+        "indeks": 9,
+        "objasnjenje": "Dana 2026-09-22 plaćeno je 2.950,00 € društvu Horvat i Partneri s opisom „Predujam - pravne usluge, savjetovanje”, ali za to plaćanje ne postoji račun ni u knjigama ni među eRačunima. Ako je riječ o predujmu, dobavljač mora izdati račun za predujam, a pretporez se može odbiti tek uz valjan eRačun.",
+        "preporuka": "Razjasniti plaćanje s klijentom i zatražiti od odvjetničkog društva eRačun za predujam. Pretporez ne iskazivati dok eRačun ne bude zaprimljen.",
+        "pravilo_id": "R-PREDUJAM",
+        "sigurnost": "srednja",
+        "treba_strucnu_provjeru": true
+      }
+    ]
+  },
+  "model": "claude-opus-5-5",
+  "usage": {
+    "input_tokens": 5343,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "iterations": [
+      {
+        "input_tokens": 5343,
+        "output_tokens": 3566,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message",
+        "model": null
+      }
+    ],
+    "output_tokens": 3566,
+    "output_tokens_details": {
+      "thinking_tokens": 677
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  }
+}

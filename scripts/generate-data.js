@@ -432,6 +432,18 @@ writeJson(join(clientDir, 'answer_key.json'), {
   pdv_prema_knjigama: eurDeep(asBooked),
   zp_tocno: eurDeep(zpTruth),
   zp_prema_knjigama: eurDeep(zpBooks),
+  // What a correct reading of each PDF must return (used to grade the AI extraction).
+  pdf_tocno: invoices.filter((i) => i.channel === 'pdf').map((i) => ({
+    datoteka: `${i.direction === 'URA' ? 'strani-racuni' : 'izlazni-racuni'}/${fileName(i)}.pdf`,
+    broj_racuna: i.number,
+    datum_racuna: i.issueDate,
+    izdavatelj_vat_id: i.supplier.vatId,
+    primatelj_vat_id: i.buyer.vatId,
+    vrsta_isporuke: i.treatment === 'EU_STJECANJE_DOBARA' ? 'DOBRA' : 'USLUGA',
+    osnovica: Number(toEur(i.netCents)),
+    pdv: Number(toEur(i.vatCents)),
+    ukupno: Number(toEur(i.grossCents)),
+  })),
 });
 
 // ---------- summary ----------

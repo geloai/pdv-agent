@@ -9,6 +9,7 @@
     "import": "node scripts/import.js",
     "reconcile": "node scripts/reconcile.js",
     "demo": "npm run generate && npm run import && npm run reconcile",
+    "agent": "node scripts/agent.js",
     "test": "node --test"
   },
   "engines": {
@@ -16,6 +17,8 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.134.0",
+    "dotenv": "^18.0.8",
     "fast-xml-parser": "^5.11.2",
     "pdfkit": "^0.20.2"
   }

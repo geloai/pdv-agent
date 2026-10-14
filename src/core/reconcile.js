@@ -184,19 +184,72 @@ export function reconcile(data, period) {
     });
   }
 
-  // 5. EU purchases must be self-assessed (reverse charge / intra-EU acquisition)
+  // 5. EU purchases must be self-assessed (reverse charge / intra-EU acquisition).
+  // Foreign invoices are PDFs; once the AI layer has read them, their data is used as evidence here.
+  const pdfFacts = (d) => ({ ...JSON.parse(d.detalji || '{}'), datoteka: d.datoteka });
+  const pdfIn = data.pdfs.filter((d) => d.smjer === 'ULAZNI' && d.partner_id);
+  const pdfOut = data.pdfs.filter((d) => d.smjer === 'IZLAZNI' && d.partner_id);
+  const pdfByKey = new Map([...pdfIn, ...pdfOut].map((d) => [`${d.smjer}|${keyOf(d.partner_id, d.broj_racuna)}`, d]));
+  const euTreatment = (pdf) => (pdf && pdfFacts(pdf).vrsta_isporuke === 'DOBRA' ? 'EU_STJECANJE_DOBARA' : 'EU_USLUGA_PPO');
+
   for (const r of data.ura) {
     if (handled.has(r.id) || !EU_COUNTRIES.has(r.drzava)) continue;
-    if (r.vrsta === 'EU_USLUGA_PPO' || r.vrsta === 'EU_STJECANJE_DOBARA') continue;
-    const vat = Math.round(r.osnovica * 0.25);
-    add({
-      kod: 'EU_USLUGA_BEZ_PRIJENOSA_POREZNE_OBVEZE', ozbiljnost: 'red', knjiga: 'URA', rowId: r.id, broj_racuna: r.broj_racuna, partner: r.partner,
-      naslov: `Račun iz EU (${r.drzava}) bez obračuna PDV-a`,
-      detalji: `${r.partner} je porezni obveznik iz ${r.drzava}. Primatelj mora sam obračunati PDV 25 % (${eur(vat)}) i ` +
-        'istodobno ga odbiti kao pretporez. Na iznos za uplatu nema utjecaja, ali PDV obrazac i PDV-S su netočni. ' +
-        'Pretpostavka: usluga (ne isporuka dobara) — potvrditi iz računa.',
-      ispravak: { type: 'update', knjiga: 'URA', rowId: r.id, set: { vrsta: 'EU_USLUGA_PPO', stopa: 25, pdv: vat, pretporez: vat } },
-    });
+    const pdf = pdfByKey.get(`ULAZNI|${keyOf(r.oib_ili_vat_id, r.broj_racuna)}`);
+    const dokazi = pdf ? [{ vrsta: 'pdf', datoteka: pdf.datoteka, vrsta_isporuke: pdfFacts(pdf).vrsta_isporuke }] : [];
+
+    if (r.vrsta !== 'EU_USLUGA_PPO' && r.vrsta !== 'EU_STJECANJE_DOBARA') {
+      const vrsta = euTreatment(pdf);
+      const vat = Math.round(r.osnovica * 0.25);
+      const what = vrsta === 'EU_STJECANJE_DOBARA' ? 'stjecanje dobara' : 'primljena usluga';
+      add({
+        kod: 'EU_USLUGA_BEZ_PRIJENOSA_POREZNE_OBVEZE', ozbiljnost: 'red', knjiga: 'URA', rowId: r.id, broj_racuna: r.broj_racuna, partner: r.partner,
+        naslov: `Račun iz EU (${r.drzava}) bez obračuna PDV-a`,
+        detalji: `${r.partner} je porezni obveznik iz ${r.drzava}. Primatelj mora sam obračunati PDV 25 % (${eur(vat)}) i ` +
+          'istodobno ga odbiti kao pretporez. Na iznos za uplatu nema utjecaja, ali PDV obrazac i PDV-S su netočni. ' +
+          (pdf ? `Prema računu riječ je o ${what === 'stjecanje dobara' ? 'stjecanju dobara' : 'usluzi'}.` : 'Pretpostavka: usluga (ne isporuka dobara) — potvrditi iz računa.'),
+        dokazi,
+        ispravak: { type: 'update', knjiga: 'URA', rowId: r.id, set: { vrsta, stopa: 25, pdv: vat, pretporez: vat } },
+      });
+      continue;
+    }
+    if (!pdf) continue;
+    if (pdf.osnovica !== r.osnovica) {
+      const vat = Math.round(pdf.osnovica * 0.25);
+      add({
+        kod: 'IZNOS_RAZLICIT_OD_RACUNA', ozbiljnost: 'orange', knjiga: 'URA', rowId: r.id, broj_racuna: r.broj_racuna, partner: r.partner,
+        naslov: `Iznos u knjizi ne odgovara računu ${r.broj_racuna}`,
+        detalji: `Knjiga: osnovica ${eur(r.osnovica)}. Račun (PDF): osnovica ${eur(pdf.osnovica)}.`,
+        dokazi,
+        ispravak: { type: 'update', knjiga: 'URA', rowId: r.id, set: { osnovica: pdf.osnovica, pdv: vat, pretporez: vat, ukupno: pdf.ukupno } },
+      });
+    } else if (euTreatment(pdf) !== r.vrsta && pdfFacts(pdf).vrsta_isporuke !== 'MIJESANO') {
+      add({
+        kod: 'KRIVA_VRSTA_EU_NABAVE', ozbiljnost: 'orange', knjiga: 'URA', rowId: r.id, broj_racuna: r.broj_racuna, partner: r.partner,
+        naslov: `EU nabava krivo razvrstana (${r.broj_racuna})`,
+        detalji: `U knjizi: ${r.vrsta}. Prema računu riječ je o ${pdfFacts(pdf).vrsta_isporuke === 'DOBRA' ? 'dobrima' : 'uslugama'}, ` +
+          'što se u PDV prijavi i PDV-S iskazuje u drugom retku.',
+        dokazi,
+        ispravak: { type: 'update', knjiga: 'URA', rowId: r.id, set: { vrsta: euTreatment(pdf) } },
+      });
+    }
+  }
+  for (const [knjiga, pdfs, rows] of [['URA', pdfIn, data.ura], ['IRA', pdfOut, data.ira]]) {
+    const booked = new Set(rows.map((r) => keyOf(r.oib_ili_vat_id, r.broj_racuna)));
+    for (const d of pdfs) {
+      if (booked.has(keyOf(d.partner_id, d.broj_racuna))) continue;
+      const f = pdfFacts(d);
+      const vrsta = knjiga === 'IRA' ? 'EU_USLUGA' : euTreatment(d);
+      const vat = knjiga === 'URA' ? Math.round(d.osnovica * 0.25) : 0;
+      add({
+        kod: 'STRANI_RACUN_NIJE_PROKNJIZEN', ozbiljnost: knjiga === 'IRA' ? 'red' : 'orange', knjiga, broj_racuna: d.broj_racuna, partner: d.partner,
+        naslov: `Račun ${d.broj_racuna} (${d.partner}) nije proknjižen`,
+        detalji: `Račun iz ${d.drzava} od ${d.datum_racuna}, osnovica ${eur(d.osnovica)}, nije u knjizi ${knjiga}.`,
+        dokazi: [{ vrsta: 'pdf', datoteka: d.datoteka, vrsta_isporuke: f.vrsta_isporuke }],
+        ispravak: { type: 'add', knjiga, row: {
+          broj_racuna: d.broj_racuna, datum_racuna: d.datum_racuna, partner: d.partner, oib_ili_vat_id: d.partner_id, drzava: d.drzava,
+          vrsta, osnovica: d.osnovica, stopa: knjiga === 'URA' ? 25 : 0, pdv: vat, pretporez: vat, ukupno: d.ukupno } },
+      });
+    }
   }
 
   // 6. Sales to EU customers must be reported as EU services (and in the ZP form)

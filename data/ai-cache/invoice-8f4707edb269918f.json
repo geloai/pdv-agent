@@ -1,0 +1,49 @@
+{
+  "data": {
+    "broj_racuna": "WI-26-03317",
+    "datum_racuna": "2026-09-15",
+    "izdavatelj": "Werkstatt Instruments GmbH",
+    "izdavatelj_vat_id": "ATU56293536",
+    "izdavatelj_drzava": "AT",
+    "primatelj": "Nordtech Adriatic d.o.o.",
+    "primatelj_vat_id": "HR26383927393",
+    "opis": "Precision test bench WI-500 incl. calibration kit",
+    "vrsta_isporuke": "DOBRA",
+    "osnovica": 7900,
+    "pdv": 0,
+    "ukupno": 7900,
+    "valuta": "EUR",
+    "prijenos_porezne_obveze": true,
+    "napomena_o_pdv": "Tax-exempt intra-Community supply of goods (Art. 138 Council Directive 2006/112/EC)."
+  },
+  "model": "claude-opus-5-5",
+  "usage": {
+    "input_tokens": 2856,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "iterations": [
+      {
+        "input_tokens": 2856,
+        "output_tokens": 282,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message",
+        "model": null
+      }
+    ],
+    "output_tokens": 282,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  }
+}

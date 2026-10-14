@@ -6,7 +6,8 @@ import { toEur } from './util.js';
 
 export function writeInvoicePdf(inv, filePath) {
   return new Promise((resolve, reject) => {
-    const doc = new PDFDocument({ size: 'A4', margin: 50 });
+    // Fixed metadata date so the same invoice always produces byte-identical PDFs (stable AI cache keys).
+    const doc = new PDFDocument({ size: 'A4', margin: 50, info: { CreationDate: new Date(`${inv.issueDate}T12:00:00Z`), Producer: 'pdv-agent' } });
     const out = createWriteStream(filePath);
     out.on('finish', resolve);
     out.on('error', reject);

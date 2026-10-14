@@ -236,5 +236,73 @@
       "vat_id": "DE362479498",
       "usluge": 96000
     }
+  ],
+  "pdf_tocno": [
+    {
+      "datoteka": "strani-racuni/URA_NS-IC-2026-0917.pdf",
+      "broj_racuna": "NS-IC-2026-0917",
+      "datum_racuna": "2026-09-30",
+      "izdavatelj_vat_id": "DE362479498",
+      "primatelj_vat_id": "HR26383927393",
+      "vrsta_isporuke": "USLUGA",
+      "osnovica": 18500,
+      "pdv": 0,
+      "ukupno": 18500
+    },
+    {
+      "datoteka": "strani-racuni/URA_CF-INV-448821.pdf",
+      "broj_racuna": "CF-INV-448821",
+      "datum_racuna": "2026-09-07",
+      "izdavatelj_vat_id": "IE3081502W",
+      "primatelj_vat_id": "HR26383927393",
+      "vrsta_isporuke": "USLUGA",
+      "osnovica": 2340,
+      "pdv": 0,
+      "ukupno": 2340
+    },
+    {
+      "datoteka": "strani-racuni/URA_WI-26-03317.pdf",
+      "broj_racuna": "WI-26-03317",
+      "datum_racuna": "2026-09-15",
+      "izdavatelj_vat_id": "ATU56293536",
+      "primatelj_vat_id": "HR26383927393",
+      "vrsta_isporuke": "DOBRA",
+      "osnovica": 7900,
+      "pdv": 0,
+      "ukupno": 7900
+    },
+    {
+      "datoteka": "strani-racuni/URA_DH-2026-09-0412.pdf",
+      "broj_racuna": "DH-2026-09-0412",
+      "datum_racuna": "2026-09-01",
+      "izdavatelj_vat_id": "LU16296768",
+      "primatelj_vat_id": "HR26383927393",
+      "vrsta_isporuke": "USLUGA",
+      "osnovica": 1120,
+      "pdv": 0,
+      "ukupno": 1120
+    },
+    {
+      "datoteka": "izlazni-racuni/IRA_207-1-1.pdf",
+      "broj_racuna": "207/1/1",
+      "datum_racuna": "2026-09-30",
+      "izdavatelj_vat_id": "HR26383927393",
+      "primatelj_vat_id": "DE362479498",
+      "vrsta_isporuke": "USLUGA",
+      "osnovica": 96000,
+      "pdv": 0,
+      "ukupno": 96000
+    },
+    {
+      "datoteka": "izlazni-racuni/IRA_208-1-1.pdf",
+      "broj_racuna": "208/1/1",
+      "datum_racuna": "2026-09-30",
+      "izdavatelj_vat_id": "HR26383927393",
+      "primatelj_vat_id": "DE362479498",
+      "vrsta_isporuke": "USLUGA",
+      "osnovica": 14200,
+      "pdv": 0,
+      "ukupno": 14200
+    }
   ]
 }
