@@ -50,6 +50,12 @@ CREATE TABLE IF NOT EXISTS findings (
   zahtjev_klijentu INTEGER NOT NULL DEFAULT 0, dokazi TEXT, ispravak TEXT,
   status TEXT NOT NULL DEFAULT 'OTVORENO', ai_objasnjenje TEXT
 );
+CREATE TABLE IF NOT EXISTS client_requests (
+  id INTEGER PRIMARY KEY, run_id INTEGER NOT NULL REFERENCES runs(id),
+  client_id TEXT NOT NULL, period TEXT NOT NULL,
+  hr_predmet TEXT, hr_tijelo TEXT, en_predmet TEXT, en_tijelo TEXT,
+  status TEXT NOT NULL DEFAULT 'NACRT', created_at TEXT NOT NULL
+);
 `;
 
 export function openDb(path = DEFAULT_DB) {

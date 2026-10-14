@@ -42,7 +42,7 @@ function periodBounds(period) {
 
 // ---------- corrections ----------
 
-function applyCorrections(data, corrections) {
+export function applyCorrections(data, corrections) {
   const books = { URA: data.ura.map((r) => ({ ...r })), IRA: data.ira.map((r) => ({ ...r })) };
   for (const c of corrections) {
     if (!c) continue;
@@ -57,7 +57,7 @@ function applyCorrections(data, corrections) {
   return books;
 }
 
-const totalsOf = (books) => ({ pdv: vatTotals(books.URA, books.IRA), zp: zpTotals(books.IRA) });
+export const totalsOf = (books) => ({ pdv: vatTotals(books.URA, books.IRA), zp: zpTotals(books.IRA) });
 
 // ---------- engine ----------
 

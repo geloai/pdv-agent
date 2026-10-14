@@ -8,16 +8,6 @@ import { readInvoicePdf, explainFindings, draftClientRequest } from './tasks.js'
 import { runReconciliation } from '../core/reconcile.js';
 import { cents } from '../lib/util.js';
 
-// Created lazily so the AI layer can be added to an existing database.
-export function ensureAiTables(db) {
-  db.exec(`CREATE TABLE IF NOT EXISTS client_requests (
-    id INTEGER PRIMARY KEY, run_id INTEGER NOT NULL REFERENCES runs(id),
-    client_id TEXT NOT NULL, period TEXT NOT NULL,
-    hr_predmet TEXT, hr_tijelo TEXT, en_predmet TEXT, en_tijelo TEXT,
-    status TEXT NOT NULL DEFAULT 'NACRT', created_at TEXT NOT NULL
-  )`);
-}
-
 const stripHr = (id) => (/^HR\d{11}$/.test(id) ? id.slice(2) : id);
 
 // Stores what was read from a PDF on its document row. Pure DB write, no API call.
@@ -42,7 +32,7 @@ export async function readPdfs(db, { clientId, period, dir, log = () => {} }) {
     const { data, usage: u, cached } = await readInvoicePdf(join(dir, doc.datoteka));
     applyPdfExtraction(db, doc, data);
     usage.push(u);
-    log(`  ${cached ? '(cache) ' : ''}${doc.datoteka}: ${data.izdavatelj} → ${data.broj_racuna}, ${data.vrsta_isporuke}, ${data.osnovica} ${data.valuta}`);
+    log(`  ${doc.datoteka}: ${data.izdavatelj} → ${data.broj_racuna}, ${data.vrsta_isporuke}, ${data.osnovica} ${data.valuta}`);
   }
   return usage;
 }
@@ -65,7 +55,6 @@ export async function explainRun(db, runId) {
 }
 
 export async function draftRequest(db, runId, firmName) {
-  ensureAiTables(db);
   const run = db.prepare('SELECT * FROM runs WHERE id = ?').get(runId);
   const client = db.prepare(`SELECT c.*, p.rok_prijave FROM clients c JOIN periods p ON p.client_id = c.id
     WHERE c.id = ? AND p.period = ?`).get(run.client_id, run.period);
@@ -81,7 +70,6 @@ export async function draftRequest(db, runId, firmName) {
 
 // Full AI-assisted run for one client period.
 export async function runAgent(db, { clientId, period, dir, firmName, log = console.log }) {
-  ensureAiTables(db);
   const usage = [];
   log('1/4 Čitam strane račune (PDF)…');
   usage.push(...(await readPdfs(db, { clientId, period, dir, log })));

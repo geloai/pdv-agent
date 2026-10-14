@@ -64,6 +64,12 @@ export function importClientPeriod(db, { clientId, period, dir }) {
 
   const counts = {};
   tx(db, () => {
+    // Findings point at book row ids, so earlier runs are invalid once the data is replaced.
+    const runIds = 'SELECT id FROM runs WHERE client_id = ? AND period = ?';
+    db.prepare(`DELETE FROM findings WHERE run_id IN (${runIds})`).run(clientId, period);
+    db.prepare(`DELETE FROM client_requests WHERE run_id IN (${runIds})`).run(clientId, period);
+    db.prepare('DELETE FROM runs WHERE client_id = ? AND period = ?').run(clientId, period);
+    db.prepare("UPDATE periods SET status = 'NIJE_POKRENUTO', otvorene_stavke = NULL WHERE client_id = ? AND period = ?").run(clientId, period);
     for (const t of ['documents', 'book_entries', 'bank_tx']) {
       db.prepare(`DELETE FROM ${t} WHERE client_id = ? AND period = ?`).run(clientId, period);
     }

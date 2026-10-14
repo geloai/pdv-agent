@@ -1,0 +1,109 @@
+// Web dashboard for the accounting firm: process map, client portfolio and the VAT workflow per client.
+import 'dotenv/config';
+import express from 'express';
+import { join } from 'node:path';
+import { readFileSync } from 'node:fs';
+import { openDb, ROOT } from './db.js';
+import { loadPeriod, reconcile, runReconciliation, applyCorrections, totalsOf } from './core/reconcile.js';
+import { runAgent } from './ai/pipeline.js';
+import { processMap } from './web/process-map.js';
+
+const DATA_DIR = join(ROOT, 'data', 'generated');
+const db = openDb();
+const app = express();
+app.use(express.json());
+app.use(express.static(join(ROOT, 'src', 'web', 'public')));
+
+// Source documents (eRačuni, PDFs) for evidence links. The answer key is for tests only.
+app.use('/dokumenti', (req, res, next) => (/answer_key/i.test(req.path) ? res.sendStatus(404) : next()));
+app.use('/dokumenti', express.static(DATA_DIR));
+
+const firm = () => JSON.parse(readFileSync(join(DATA_DIR, 'ured.json'), 'utf8')).ured;
+const parse = (s, fallback) => (s ? JSON.parse(s) : fallback);
+
+app.get('/api/ured', (req, res) => {
+  const klijenti = db.prepare(`SELECT c.*, p.period, p.rok_prijave, p.status, p.otvorene_stavke, p.ima_podatke
+    FROM clients c JOIN periods p ON p.client_id = c.id ORDER BY p.ima_podatke DESC, c.naziv`).all();
+  res.json({ ured: firm(), klijenti });
+});
+
+app.get('/api/proces', (req, res) => res.json(processMap()));
+
+function periodStatus(clientId, period, runId) {
+  const open = db.prepare("SELECT * FROM findings WHERE run_id = ? AND status = 'OTVORENO'").all(runId);
+  const status = open.some((f) => f.zahtjev_klijentu) ? 'CEKA_KLIJENTA' : open.length ? 'CEKA_PREGLED' : 'SPREMNO_ZA_PREDAJU';
+  db.prepare('UPDATE periods SET status = ?, otvorene_stavke = ? WHERE client_id = ? AND period = ?').run(status, open.length, clientId, period);
+}
+
+function periodState(clientId, period) {
+  const klijent = db.prepare(`SELECT c.*, p.period, p.rok_prijave, p.status, p.otvorene_stavke, p.ima_podatke
+    FROM clients c JOIN periods p ON p.client_id = c.id WHERE c.id = ? AND p.period = ?`).get(clientId, period);
+  if (!klijent) return null;
+  if (!klijent.ima_podatke) return { klijent, run: null };
+
+  const data = loadPeriod(db, clientId, period);
+  const izvori = {
+    eracuni: data.eracuni.length, fiskalizacija: data.fiscal.length, pdf: data.pdfs.length,
+    pdf_procitano: data.pdfs.filter((d) => d.partner_id).length,
+    ura: data.ura.length, ira: data.ira.length, banka: data.bank.length,
+  };
+  const run = db.prepare('SELECT * FROM runs WHERE client_id = ? AND period = ? ORDER BY id DESC LIMIT 1').get(clientId, period);
+  if (!run) return { klijent, run: null, izvori };
+
+  const nalazi = db.prepare('SELECT * FROM findings WHERE run_id = ? ORDER BY id').all(run.id).map((f) => ({
+    ...f, ai: parse(f.ai_objasnjenje, null), dokazi: parse(f.dokazi, []), ispravak: parse(f.ispravak, null),
+    zahtjev_klijentu: Boolean(f.zahtjev_klijentu),
+  }));
+  // "After corrections" applies every correction the accountant has not rejected.
+  const prihvaceni = nalazi.filter((f) => f.status !== 'ODBACENO').map((f) => f.ispravak);
+  const live = reconcile(data, period); // row and bank statuses (deterministic, same rules as the run)
+  const dopis = db.prepare('SELECT * FROM client_requests WHERE run_id = ? ORDER BY id DESC LIMIT 1').get(run.id) ?? null;
+
+  return {
+    klijent,
+    izvori,
+    run: { id: run.id, vrijeme: run.started_at, sazetak: parse(run.summary, {}) },
+    nalazi,
+    obrazac: { prema_knjigama: totalsOf({ URA: data.ura, IRA: data.ira }), nakon_ispravaka: totalsOf(applyCorrections(data, prihvaceni)) },
+    ura: live.ura,
+    ira: live.ira,
+    banka: live.bank,
+    dopis,
+  };
+}
+
+app.get('/api/klijenti/:id/:period', (req, res) => {
+  const s = periodState(req.params.id, req.params.period);
+  if (!s) return res.status(404).json({ greska: 'Nepoznat klijent ili razdoblje' });
+  res.json(s);
+});
+
+// Runs the agent and streams progress as NDJSON lines.
+app.post('/api/klijenti/:id/:period/pokreni', async (req, res) => {
+  const { id, period } = req.params;
+  res.setHeader('Content-Type', 'application/x-ndjson; charset=utf-8');
+  const send = (o) => res.write(JSON.stringify(o) + '\n');
+  const lastRun = () => db.prepare('SELECT MAX(id) AS id FROM runs WHERE client_id = ? AND period = ?').get(id, period).id ?? 0;
+  const before = lastRun();
+  try {
+    await runAgent(db, { clientId: id, period, dir: join(DATA_DIR, id, period), firmName: firm().naziv, log: (t) => send({ tip: 'log', tekst: t.trim() }) });
+  } catch (e) {
+    send({ tip: 'upozorenje', tekst: `AI korak nije uspio: ${e.message}. Prikazujem rezultat usklade bez AI objašnjenja.` });
+    if (lastRun() === before) runReconciliation(db, id, period);
+  }
+  send({ tip: 'gotovo' });
+  res.end();
+});
+
+app.post('/api/nalazi/:id/status', (req, res) => {
+  const { status } = req.body ?? {};
+  if (!['OTVORENO', 'ODOBRENO', 'ODBACENO'].includes(status)) return res.status(400).json({ greska: 'Neispravan status' });
+  const f = db.prepare('SELECT * FROM findings WHERE id = ?').get(req.params.id);
+  if (!f) return res.sendStatus(404);
+  db.prepare('UPDATE findings SET status = ? WHERE id = ?').run(status, f.id);
+  periodStatus(f.client_id, f.period, f.run_id);
+  res.json(periodState(f.client_id, f.period));
+});
+
+const port = Number(process.env.PORT) || 3000;
+app.listen(port, () => console.log(`PDV Agent: http://localhost:${port}`));
