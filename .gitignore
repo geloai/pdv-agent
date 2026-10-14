@@ -1,0 +1,9 @@
+node_modules/
+.env
+*.sqlite
+*.db
+
+# privatne bilješke (ne objavljivati)
+crowe-istrazivanje.md
+linkedin-izmjene.md
+pdv-agent-plan.md

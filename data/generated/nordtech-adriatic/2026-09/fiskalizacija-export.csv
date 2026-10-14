@@ -1,0 +1,23 @@
+﻿smjer;broj_racuna;datum_izdavanja;oib_izdavatelja;naziv_izdavatelja;oib_primatelja;naziv_primatelja;osnovica;pdv;ukupno;status;datoteka
+ULAZNI;1184/1/1;2026-09-01;59943047350;Zagreb Tower Offices d.o.o.;26383927393;Nordtech Adriatic d.o.o.;5440.00;1360.00;6800.00;ZAPRIMLJEN;eracuni/URA_1184-1-1.xml
+ULAZNI;2026-0087412/3/1;2026-09-05;50626290653;Elektra Opskrba d.o.o.;26383927393;Nordtech Adriatic d.o.o.;612.40;79.61;692.01;ZAPRIMLJEN;eracuni/URA_2026-0087412-3-1.xml
+ULAZNI;9921034/2/9;2026-09-03;91656189220;Telekom Adria d.d.;26383927393;Nordtech Adriatic d.o.o.;389.90;97.48;487.38;ZAPRIMLJEN;eracuni/URA_9921034-2-9.xml
+ULAZNI;3310/1/1;2026-09-01;74288347466;Leasing Plus d.o.o.;26383927393;Nordtech Adriatic d.o.o.;620.00;155.00;775.00;ZAPRIMLJEN;eracuni/URA_3310-1-1.xml
+ULAZNI;3311/1/1;2026-09-01;74288347466;Leasing Plus d.o.o.;26383927393;Nordtech Adriatic d.o.o.;585.00;146.25;731.25;ZAPRIMLJEN;eracuni/URA_3311-1-1.xml
+ULAZNI;55120/4/2;2026-09-16;70134883511;Petrol Centar d.o.o.;26383927393;Nordtech Adriatic d.o.o.;412.80;103.20;516.00;ZAPRIMLJEN;eracuni/URA_55120-4-2.xml
+ULAZNI;56877/4/2;2026-09-30;70134883511;Petrol Centar d.o.o.;26383927393;Nordtech Adriatic d.o.o.;398.20;99.55;497.75;ZAPRIMLJEN;eracuni/URA_56877-4-2.xml
+ULAZNI;742/1/1;2026-09-08;53787730556;Uredski Svijet d.o.o.;26383927393;Nordtech Adriatic d.o.o.;1520.00;380.00;1900.00;ZAPRIMLJEN;eracuni/URA_742-1-1.xml
+ULAZNI;2026-1450/1/1;2026-09-10;72368016919;IT Oprema d.o.o.;26383927393;Nordtech Adriatic d.o.o.;6400.00;1600.00;8000.00;ZAPRIMLJEN;eracuni/URA_2026-1450-1-1.xml
+ULAZNI;881/2/1;2026-09-11;64379182280;Restoran Gornji Grad d.o.o.;26383927393;Nordtech Adriatic d.o.o.;286.00;37.18;323.18;ZAPRIMLJEN;eracuni/URA_881-2-1.xml
+ULAZNI;410/1/1;2026-09-02;43977514681;Čistoća Servis d.o.o.;26383927393;Nordtech Adriatic d.o.o.;540.00;135.00;675.00;ZAPRIMLJEN;eracuni/URA_410-1-1.xml
+ULAZNI;2208/1/3;2026-09-18;11537370262;Hotel Panorama Split d.o.o.;26383927393;Nordtech Adriatic d.o.o.;360.00;46.80;406.80;ZAPRIMLJEN;eracuni/URA_2208-1-3.xml
+ULAZNI;12044/1/1;2026-09-30;15573209787;Kurirska Brzina d.o.o.;26383927393;Nordtech Adriatic d.o.o.;148.50;37.13;185.63;ZAPRIMLJEN;eracuni/URA_12044-1-1.xml
+ULAZNI;233/1/1;2026-09-12;16616738344;Croatia Software Academy d.o.o.;26383927393;Nordtech Adriatic d.o.o.;1800.00;450.00;2250.00;ZAPRIMLJEN;eracuni/URA_233-1-1.xml
+ULAZNI;5521/1/1;2026-09-01;68394825329;Parking Centar Zagreb d.o.o.;26383927393;Nordtech Adriatic d.o.o.;450.00;112.50;562.50;ZAPRIMLJEN;eracuni/URA_5521-1-1.xml
+ULAZNI;318/1/1;2026-09-04;79882981382;Adria Ledger Partners d.o.o.;26383927393;Nordtech Adriatic d.o.o.;1450.00;362.50;1812.50;ZAPRIMLJEN;eracuni/URA_318-1-1.xml
+IZLAZNI;201/1/1;2026-09-02;26383927393;Nordtech Adriatic d.o.o.;92648767807;Croatia Pharma Distribucija d.o.o.;8400.00;2100.00;10500.00;FISKALIZIRAN;eracuni/IRA_201-1-1.xml
+IZLAZNI;202/1/1;2026-09-05;26383927393;Nordtech Adriatic d.o.o.;90706224163;Zagreb Smart Grid d.o.o.;22500.00;5625.00;28125.00;FISKALIZIRAN;eracuni/IRA_202-1-1.xml
+IZLAZNI;203/1/1;2026-09-09;26383927393;Nordtech Adriatic d.o.o.;42754022052;Jadranska Osiguranja d.d.;6200.00;1550.00;7750.00;FISKALIZIRAN;eracuni/IRA_203-1-1.xml
+IZLAZNI;204/1/1;2026-09-14;26383927393;Nordtech Adriatic d.o.o.;44870635984;Lika Agro d.o.o.;11350.00;2837.50;14187.50;FISKALIZIRAN;eracuni/IRA_204-1-1.xml
+IZLAZNI;205/1/1;2026-09-21;26383927393;Nordtech Adriatic d.o.o.;92648767807;Croatia Pharma Distribucija d.o.o.;1900.00;475.00;2375.00;FISKALIZIRAN;eracuni/IRA_205-1-1.xml
+IZLAZNI;206/1/1;2026-09-25;26383927393;Nordtech Adriatic d.o.o.;24857459063;Dalmacija Retail d.o.o.;2750.00;687.50;3437.50;FISKALIZIRAN;eracuni/IRA_206-1-1.xml

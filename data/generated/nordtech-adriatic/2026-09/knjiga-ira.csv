@@ -1,0 +1,9 @@
+﻿rb;broj_racuna;datum_racuna;partner;oib_ili_vat_id;drzava;opis;vrsta;osnovica;stopa;pdv;ukupno
+1;201/1/1;2026-09-02;Croatia Pharma Distribucija d.o.o.;92648767807;HR;Održavanje ERP integracije 09/2026;TUZEMNO;8400.00;25;2100.00;10500.00
+2;202/1/1;2026-09-05;Zagreb Smart Grid d.o.o.;90706224163;HR;Razvoj softvera - faza 2 (milestone 3);TUZEMNO;22500.00;25;5625.00;28125.00
+3;203/1/1;2026-09-09;Jadranska Osiguranja d.d.;42754022052;HR;Konzalting - sigurnosni pregled aplikacija;TUZEMNO;6200.00;25;1550.00;7750.00
+4;204/1/1;2026-09-14;Lika Agro d.o.o.;44870635984;HR;Implementacija IoT senzora - 30 lokacija;TUZEMNO;11350.00;25;2837.50;14187.50
+5;205/1/1;2026-09-21;Croatia Pharma Distribucija d.o.o.;92648767807;HR;Licenca - modul izvještavanja (godišnja);TUZEMNO;1900.00;25;475.00;2375.00
+6;206/1/1;2026-09-25;Dalmacija Retail d.o.o.;24857459063;HR;Podrška korisnicima 09/2026;TUZEMNO;2750.00;25;687.50;3437.50
+7;207/1/1;2026-09-30;Nordtech Systems GmbH;DE362479498;DE;Software development services - September 2026;EU_USLUGA;96000.00;0;0.00;96000.00
+8;208/1/1;2026-09-30;Nordtech Systems GmbH;DE362479498;DE;Engineering consulting - project Atlas (120 h);OSLOBODJENO_OSTALO;14200.00;0;0.00;14200.00

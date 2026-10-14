@@ -1,0 +1,240 @@
+{
+  "napomena": "Rješenje za validaciju - NE koristi ga aplikacija, samo test. Iznosi u EUR.",
+  "greske": [
+    {
+      "id": "E1",
+      "kod": "URA_BEZ_FISKALIZIRANOG_ERACUNA",
+      "ozbiljnost": "red",
+      "knjiga": "URA",
+      "broj_racuna": "77/1/1",
+      "partner": "Sigurnost Plus d.o.o.",
+      "invoiceId": "URA-018",
+      "utjecaj_za_uplatu": 245,
+      "zahtjev_klijentu": true,
+      "opis": "Ulazni račun proknjižen s pretporezom, ali ne postoji kao fiskalizirani eRačun. Od 1. 1. 2026. papirnati/PDF račun u tuzemnom B2B prometu nije valjana isprava za pretporez."
+    },
+    {
+      "id": "E2",
+      "kod": "ERACUN_NIJE_PROKNJIZEN",
+      "ozbiljnost": "orange",
+      "knjiga": "URA",
+      "broj_racuna": "12044/1/1",
+      "partner": "Kurirska Brzina d.o.o.",
+      "invoiceId": "URA-014",
+      "utjecaj_za_uplatu": -37.13,
+      "zahtjev_klijentu": false,
+      "opis": "Zaprimljeni eRačun postoji u fiskalizacijskim podacima, ali nije u knjizi URA. Pretporez nije iskorišten."
+    },
+    {
+      "id": "E3",
+      "kod": "IZNOS_RAZLICIT_OD_ERACUNA",
+      "ozbiljnost": "orange",
+      "knjiga": "URA",
+      "broj_racuna": "742/1/1",
+      "partner": "Uredski Svijet d.o.o.",
+      "invoiceId": "URA-008",
+      "utjecaj_za_uplatu": -67.5,
+      "zahtjev_klijentu": false,
+      "opis": "Osnovica u knjizi (1.250,00) ne odgovara eRačunu (1.520,00). Plaćanje u banci (1.900,00) potvrđuje iznos s eRačuna."
+    },
+    {
+      "id": "E4",
+      "kod": "EU_USLUGA_BEZ_PRIJENOSA_POREZNE_OBVEZE",
+      "ozbiljnost": "red",
+      "knjiga": "URA",
+      "broj_racuna": "NS-IC-2026-0917",
+      "partner": "Nordtech Systems GmbH",
+      "invoiceId": "URA-019",
+      "utjecaj_za_uplatu": 0,
+      "zahtjev_klijentu": false,
+      "opis": "Usluga primljena od poreznog obveznika iz EU proknjižena bez obračuna PDV-a. Primatelj mora obračunati PDV (25 %) i istovremeno ga može odbiti kao pretporez - nema utjecaja na uplatu, ali prijava i PDV-S obrazac su netočni."
+    },
+    {
+      "id": "E5",
+      "kod": "EU_USLUGA_KRIVO_KLASIFICIRANA",
+      "ozbiljnost": "red",
+      "knjiga": "IRA",
+      "broj_racuna": "208/1/1",
+      "partner": "Nordtech Systems GmbH",
+      "invoiceId": "IRA-030",
+      "utjecaj_za_uplatu": 0,
+      "zahtjev_klijentu": false,
+      "opis": "Usluga obavljena poreznom obvezniku u EU označena kao \"ostale oslobođene isporuke\". Iskazuje se u krivom retku PDV obrasca i nedostaje u ZP obrascu."
+    },
+    {
+      "id": "E6",
+      "kod": "OSOBNO_VOZILO_PRETPOREZ_100",
+      "ozbiljnost": "orange",
+      "knjiga": "URA",
+      "broj_racuna": "55120/4/2",
+      "partner": "Petrol Centar d.o.o.",
+      "invoiceId": "URA-006",
+      "utjecaj_za_uplatu": 51.6,
+      "zahtjev_klijentu": false,
+      "opis": "Gorivo za osobna vozila: priznaje se 50 % pretporeza, a proknjiženo je 100 %."
+    },
+    {
+      "id": "E7",
+      "kod": "DUPLI_RACUN",
+      "ozbiljnost": "red",
+      "knjiga": "URA",
+      "broj_racuna": "9921034/2/9",
+      "partner": "Telekom Adria d.d.",
+      "invoiceId": "URA-003",
+      "utjecaj_za_uplatu": 97.48,
+      "zahtjev_klijentu": false,
+      "opis": "Isti račun (dobavljač, broj, iznos) proknjižen dva puta."
+    },
+    {
+      "id": "E8",
+      "kod": "RACUN_IZVAN_RAZDOBLJA",
+      "ozbiljnost": "orange",
+      "knjiga": "URA",
+      "broj_racuna": "96/1/1",
+      "partner": "Adria Kadrovi d.o.o.",
+      "invoiceId": "URA-013",
+      "utjecaj_za_uplatu": 800,
+      "zahtjev_klijentu": false,
+      "opis": "Račun izdan 3. 10. 2026. proknjižen u rujnu. Pretporez pripada listopadu."
+    },
+    {
+      "id": "E9",
+      "kod": "PLACANJE_BEZ_RACUNA",
+      "ozbiljnost": "orange",
+      "knjiga": "BANKA",
+      "broj_racuna": null,
+      "partner": "Horvat i Partneri odvjetničko društvo d.o.o.",
+      "utjecaj_za_uplatu": 0,
+      "zahtjev_klijentu": true,
+      "opis": "Plaćanje 2.950,00 EUR dobavljaču bez računa u knjigama i bez eRačuna. Ako je predujam, dobavljač treba izdati račun za predujam."
+    },
+    {
+      "id": "E10",
+      "kod": "REPREZENTACIJA_PRETPOREZ",
+      "ozbiljnost": "orange",
+      "knjiga": "URA",
+      "broj_racuna": "881/2/1",
+      "partner": "Restoran Gornji Grad d.o.o.",
+      "invoiceId": "URA-010",
+      "utjecaj_za_uplatu": 37.18,
+      "zahtjev_klijentu": false,
+      "opis": "Pretporez za troškove reprezentacije nije priznat, a proknjižen je u cijelosti."
+    }
+  ],
+  "ocekivano_bankovno": [
+    {
+      "datum": "2026-09-03",
+      "opis": "Uplata po računu 182/1/1 (08/2026)",
+      "iznos": 94500,
+      "kategorija": "PRETHODNO_RAZDOBLJE"
+    },
+    {
+      "datum": "2026-09-04",
+      "opis": "Uplata po računu 176/1/1 (08/2026)",
+      "iznos": 3437.5,
+      "kategorija": "PRETHODNO_RAZDOBLJE"
+    },
+    {
+      "datum": "2026-09-15",
+      "opis": "Isplata plaća 08/2026",
+      "iznos": -62400,
+      "kategorija": "PLACE"
+    },
+    {
+      "datum": "2026-09-15",
+      "opis": "Porez na dohodak i doprinosi - JOPPD 08/2026",
+      "iznos": -31215.42,
+      "kategorija": "POREZI_DOPRINOSI"
+    },
+    {
+      "datum": "2026-09-19",
+      "opis": "Uplata PDV-a za 08/2026",
+      "iznos": -18950.33,
+      "kategorija": "POREZI_DOPRINOSI"
+    },
+    {
+      "datum": "2026-09-22",
+      "opis": "Predujam - pravne usluge, savjetovanje",
+      "iznos": -2950,
+      "kategorija": "BEZ_RACUNA"
+    },
+    {
+      "datum": "2026-09-30",
+      "opis": "Naknada za vođenje računa 09/2026",
+      "iznos": -45,
+      "kategorija": "BANKOVNA_NAKNADA"
+    }
+  ],
+  "pdv_tocno": {
+    "isporuke_tuzemne_25": {
+      "osnovica": 53100,
+      "pdv": 13275
+    },
+    "usluge_u_eu": {
+      "osnovica": 110200
+    },
+    "ostale_oslobodjene": {
+      "osnovica": 0
+    },
+    "primljene_usluge_eu_25": {
+      "osnovica": 21960,
+      "pdv": 5490
+    },
+    "stjecanje_dobara_eu_25": {
+      "osnovica": 7900,
+      "pdv": 1975
+    },
+    "pretporez_tuzemni": {
+      "5": 0,
+      "13": 126.41,
+      "25": 4786.62
+    },
+    "pretporez_eu_usluge": 5490,
+    "pretporez_eu_stjecanje": 1975,
+    "ukupna_obveza": 20740,
+    "ukupni_pretporez": 12378.03,
+    "za_uplatu": 8361.97
+  },
+  "pdv_prema_knjigama": {
+    "isporuke_tuzemne_25": {
+      "osnovica": 53100,
+      "pdv": 13275
+    },
+    "usluge_u_eu": {
+      "osnovica": 96000
+    },
+    "ostale_oslobodjene": {
+      "osnovica": 14200
+    },
+    "primljene_usluge_eu_25": {
+      "osnovica": 3460,
+      "pdv": 865
+    },
+    "stjecanje_dobara_eu_25": {
+      "osnovica": 7900,
+      "pdv": 1975
+    },
+    "pretporez_tuzemni": {
+      "5": 0,
+      "13": 163.59,
+      "25": 5876.07
+    },
+    "pretporez_eu_usluge": 865,
+    "pretporez_eu_stjecanje": 1975,
+    "ukupna_obveza": 16115,
+    "ukupni_pretporez": 8879.66,
+    "za_uplatu": 7235.34
+  },
+  "zp_tocno": [
+    {
+      "vat_id": "DE362479498",
+      "usluge": 110200
+    }
+  ],
+  "zp_prema_knjigama": [
+    {
+      "vat_id": "DE362479498",
+      "usluge": 96000
+    }
+  ]
+}

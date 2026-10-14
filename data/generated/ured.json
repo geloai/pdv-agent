@@ -1,0 +1,79 @@
+{
+  "napomena": "Svi podaci su izmišljeni (synthetic demo data).",
+  "ured": {
+    "naziv": "Adria Ledger Partners d.o.o.",
+    "oib": "79882981382",
+    "adresa": "Savska cesta 41, 10000 Zagreb"
+  },
+  "klijenti": [
+    {
+      "id": "nordtech-adriatic",
+      "naziv": "Nordtech Adriatic d.o.o.",
+      "oib": "26383927393",
+      "adresa": "Ulica Grada Vukovara 269, 10000 Zagreb",
+      "djelatnost": "IT i inženjerske usluge",
+      "vlasnik": "Nordtech Systems GmbH (DE)",
+      "porezno_razdoblje": "mjesecno",
+      "razdoblje": "2026-09",
+      "rok_prijave": "2026-10-20",
+      "status": "NIJE_POKRENUTO",
+      "ima_podatke": true
+    },
+    {
+      "id": "alpenhaus-retail",
+      "naziv": "Alpenhaus Retail d.o.o.",
+      "oib": "22342169922",
+      "adresa": "Zagrebačka avenija 104, 10000 Zagreb",
+      "djelatnost": "maloprodaja",
+      "vlasnik": "Alpenhaus Handels AG (AT)",
+      "porezno_razdoblje": "mjesecno",
+      "razdoblje": "2026-09",
+      "rok_prijave": "2026-10-20",
+      "status": "SPREMNO_ZA_PREDAJU",
+      "otvorene_stavke": 0,
+      "ima_podatke": false
+    },
+    {
+      "id": "adriatic-logistics",
+      "naziv": "Adriatic Logistics Hub d.o.o.",
+      "oib": "64005260332",
+      "adresa": "Lučka cesta 2, 51000 Rijeka",
+      "djelatnost": "logistika i skladištenje",
+      "vlasnik": "Baltic Freight Group (NL)",
+      "porezno_razdoblje": "mjesecno",
+      "razdoblje": "2026-09",
+      "rok_prijave": "2026-10-20",
+      "status": "CEKA_PREGLED",
+      "otvorene_stavke": 4,
+      "ima_podatke": false
+    },
+    {
+      "id": "medisol-clinic",
+      "naziv": "Medisol Clinic d.o.o.",
+      "oib": "36091855103",
+      "adresa": "Petrova 63, 10000 Zagreb",
+      "djelatnost": "zdravstvene usluge",
+      "vlasnik": "Medisol Holding S.p.A. (IT)",
+      "porezno_razdoblje": "mjesecno",
+      "razdoblje": "2026-09",
+      "rok_prijave": "2026-10-20",
+      "status": "CEKA_KLIJENTA",
+      "otvorene_stavke": 2,
+      "ima_podatke": false
+    },
+    {
+      "id": "kvarner-yacht",
+      "naziv": "Kvarner Yacht Services d.o.o.",
+      "oib": "28289072013",
+      "adresa": "Obala Maršala Tita 151, 51410 Opatija",
+      "djelatnost": "najam plovila",
+      "vlasnik": "Seaborne Charter Ltd (MT)",
+      "porezno_razdoblje": "mjesecno",
+      "razdoblje": "2026-09",
+      "rok_prijave": "2026-10-20",
+      "status": "SPREMNO_ZA_PREDAJU",
+      "otvorene_stavke": 0,
+      "ima_podatke": false
+    }
+  ]
+}

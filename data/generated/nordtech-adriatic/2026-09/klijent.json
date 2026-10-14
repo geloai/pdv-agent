@@ -1,0 +1,13 @@
+{
+  "naziv": "Nordtech Adriatic d.o.o.",
+  "oib": "26383927393",
+  "adresa": "Ulica Grada Vukovara 269, 10000 Zagreb",
+  "vat_id": "HR26383927393",
+  "iban": "HR5554279814028308723",
+  "razdoblje": {
+    "id": "2026-09",
+    "start": "2026-09-01",
+    "end": "2026-09-30",
+    "label": "rujan 2026."
+  }
+}

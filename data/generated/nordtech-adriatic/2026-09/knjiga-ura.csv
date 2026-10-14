@@ -1,0 +1,23 @@
+﻿rb;datum_knjizenja;broj_racuna;datum_racuna;partner;oib_ili_vat_id;drzava;opis;vrsta;osnovica;stopa;pdv;pretporez;ukupno
+1;2026-09-01;1184/1/1;2026-09-01;Zagreb Tower Offices d.o.o.;59943047350;HR;Najam poslovnog prostora 09/2026 + Zajednički troškovi zgrade 09/2026;TUZEMNO;5440.00;25;1360.00;1360.00;6800.00
+2;2026-09-01;3310/1/1;2026-09-01;Leasing Plus d.o.o.;74288347466;HR;Operativni leasing - osobno vozilo ZG-1234-NT 09/2026;TUZEMNO;620.00;25;155.00;77.50;775.00
+3;2026-09-01;3311/1/1;2026-09-01;Leasing Plus d.o.o.;74288347466;HR;Operativni leasing - osobno vozilo ZG-5678-NT 09/2026;TUZEMNO;585.00;25;146.25;73.13;731.25
+4;2026-09-01;5521/1/1;2026-09-01;Parking Centar Zagreb d.o.o.;68394825329;HR;Najam 6 parkirnih mjesta 09/2026;TUZEMNO;450.00;25;112.50;112.50;562.50
+5;2026-09-01;DH-2026-09-0412;2026-09-01;Datahaven Hosting S.a r.l.;LU16296768;LU;Cloud hosting - dedicated cluster, September 2026;EU_USLUGA_PPO;1120.00;25;280.00;280.00;1120.00
+6;2026-09-02;410/1/1;2026-09-02;Čistoća Servis d.o.o.;43977514681;HR;Čišćenje poslovnog prostora 09/2026;TUZEMNO;540.00;25;135.00;135.00;675.00
+7;2026-09-03;9921034/2/9;2026-09-03;Telekom Adria d.d.;91656189220;HR;Telekomunikacijske usluge 09/2026;TUZEMNO;389.90;25;97.48;97.48;487.38
+8;2026-09-04;318/1/1;2026-09-04;Adria Ledger Partners d.o.o.;79882981382;HR;Računovodstvene usluge 08/2026;TUZEMNO;1450.00;25;362.50;362.50;1812.50
+9;2026-09-05;2026-0087412/3/1;2026-09-05;Elektra Opskrba d.o.o.;50626290653;HR;Električna energija 08/2026;TUZEMNO;612.40;13;79.61;79.61;692.01
+10;2026-09-05;77/1/1;2026-09-05;Sigurnost Plus d.o.o.;34371101317;HR;Tjelesna zaštita objekta 09/2026;TUZEMNO;980.00;25;245.00;245.00;1225.00
+11;2026-09-07;CF-INV-448821;2026-09-07;CloudForge Software Ltd;IE3081502W;IE;Annual licence renewal - DevSuite Team, 25 seats;EU_USLUGA_PPO;2340.00;25;585.00;585.00;2340.00
+12;2026-09-08;742/1/1;2026-09-08;Uredski Svijet d.o.o.;53787730556;HR;Papir A4, 80 g - 40 paketa + Uredski pribor i toneri;TUZEMNO;1250.00;25;312.50;312.50;1562.50
+13;2026-09-10;2026-1450/1/1;2026-09-10;IT Oprema d.o.o.;72368016919;HR;"Prijenosno računalo 14"" - 4 kom";TUZEMNO;6400.00;25;1600.00;1600.00;8000.00
+14;2026-09-11;881/2/1;2026-09-11;Restoran Gornji Grad d.o.o.;64379182280;HR;Poslovni ručak s klijentom - reprezentacija;TUZEMNO;286.00;13;37.18;37.18;323.18
+15;2026-09-12;233/1/1;2026-09-12;Croatia Software Academy d.o.o.;16616738344;HR;Edukacija zaposlenika - cloud arhitektura (4 polaznika);TUZEMNO;1800.00;25;450.00;450.00;2250.00
+16;2026-09-12;9921034/2/9;2026-09-03;Telekom Adria d.d.;91656189220;HR;Telekomunikacijske usluge 09/2026;TUZEMNO;389.90;25;97.48;97.48;487.38
+17;2026-09-15;WI-26-03317;2026-09-15;Werkstatt Instruments GmbH;ATU56293536;AT;Precision test bench WI-500 incl. calibration kit;EU_STJECANJE_DOBARA;7900.00;25;1975.00;1975.00;7900.00
+18;2026-09-16;55120/4/2;2026-09-16;Petrol Centar d.o.o.;70134883511;HR;Gorivo - kartica flote 01.-15.09.2026 (osobna vozila);TUZEMNO;412.80;25;103.20;103.20;516.00
+19;2026-09-18;2208/1/3;2026-09-18;Hotel Panorama Split d.o.o.;11537370262;HR;Smještaj - službeni put, 3 noćenja;TUZEMNO;360.00;13;46.80;46.80;406.80
+20;2026-09-30;56877/4/2;2026-09-30;Petrol Centar d.o.o.;70134883511;HR;Gorivo - kartica flote 16.-30.09.2026 (osobna vozila);TUZEMNO;398.20;25;99.55;49.78;497.75
+21;2026-09-30;96/1/1;2026-10-03;Adria Kadrovi d.o.o.;82724439990;HR;Usluga posredovanja pri zapošljavanju - 2 kandidata;TUZEMNO;3200.00;25;800.00;800.00;4000.00
+22;2026-09-30;NS-IC-2026-0917;2026-09-30;Nordtech Systems GmbH;DE362479498;DE;Management fee - group services September 2026 (HR, finance, IT);INOZEMNO_BEZ_PDV;18500.00;0;0.00;0.00;18500.00

@@ -1,0 +1,22 @@
+{
+  "name": "pdv-agent",
+  "version": "0.1.0",
+  "description": "AI-assisted VAT reconciliation for accounting firms (Croatia, Fiskalizacija 2.0). Built on synthetic data.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "generate": "node scripts/generate-data.js",
+    "import": "node scripts/import.js",
+    "reconcile": "node scripts/reconcile.js",
+    "demo": "npm run generate && npm run import && npm run reconcile",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "fast-xml-parser": "^5.11.2",
+    "pdfkit": "^0.20.2"
+  }
+}
