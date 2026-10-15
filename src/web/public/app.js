@@ -241,7 +241,7 @@ function agentHtml() {
       <div class="ai-label">PDV agent</div>
       ${m.pending ? '<p class="muted">Agent razmišlja…</p>' : m.greska ? `<p>${esc(m.greska)}</p>` : `
         <p>${esc(m.a.uvod)}</p>
-        ${m.a.stavke?.length ? `<ol>${m.a.stavke.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
+        ${m.a.stavke?.length ? `<ul>${m.a.stavke.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>` : ''}
         ${m.a.zakljucak ? `<p>${esc(m.a.zakljucak)}</p>` : ''}
         ${m.povezani?.length || m.pravila?.length ? `<div class="finding-tags">
           ${(m.povezani ?? []).map((p) => `<a href="#" class="badge b-outline" data-goto="${p.id}">↗ ${esc(p.naslov)}</a>`).join('')}

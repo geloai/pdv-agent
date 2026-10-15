@@ -166,7 +166,7 @@ details.sys summary { cursor: pointer; }
 .chat { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
 .msg { max-width: 82%; border-radius: 12px; padding: 10px 14px; }
 .msg p { margin: 4px 0 0; white-space: pre-wrap; }
-.msg ol { margin: 6px 0 0; padding-left: 20px; }
+.msg ul { margin: 6px 0 0; padding-left: 20px; }
 .msg li { margin: 3px 0; }
 .msg-q { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
 .msg-a { align-self: flex-start; background: var(--surface-2); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
