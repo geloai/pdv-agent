@@ -1,4 +1,6 @@
 // PDV Agent dashboard: hash-routed single page, no build step.
+import { startTour } from './tour.js';
+
 const app = document.getElementById('app');
 
 // Client page state (declared before the router runs).
@@ -53,6 +55,11 @@ function setNav(name) {
 // ---------- router ----------
 
 async function route() {
+  if (location.hash === '#/obilazak') {
+    // Shareable link that opens the guided tour.
+    history.replaceState(null, '', '#/proces');
+    startTour();
+  }
   const [, page, ...rest] = (location.hash || '#/proces').split('/');
   try {
     if (page === 'portfelj') await renderPortfolio();
@@ -64,6 +71,7 @@ async function route() {
   window.scrollTo(0, 0);
 }
 window.addEventListener('hashchange', route);
+document.getElementById('tour-btn')?.addEventListener('click', startTour);
 route();
 
 // ---------- 1. process map ----------

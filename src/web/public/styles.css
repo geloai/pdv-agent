@@ -179,6 +179,37 @@ details.sys summary { cursor: pointer; }
 .ask input { flex: 1; font: inherit; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); }
 .ask input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
 
+/* ---------- guided tour ---------- */
+.tour-launch { white-space: nowrap; }
+.tour { position: fixed; inset: 0; z-index: 100; }
+.tour-block { position: absolute; inset: 0; }
+.tour.centered .tour-block { background: rgba(15, 23, 42, 0.55); }
+.tour-spot { position: fixed; border-radius: 10px; box-shadow: 0 0 0 9999px rgba(15, 23, 42, 0.55); outline: 2px solid #8ec5ff; pointer-events: none; transition: all 0.25s ease; }
+.tour-card { position: fixed; z-index: 2; background: var(--surface); border-radius: 12px; padding: 16px 18px; box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25); width: 400px; max-width: calc(100vw - 32px); }
+.tour.centered .tour-card { top: 50%; left: 50%; transform: translate(-50%, -50%); width: 520px; }
+.tour-card h3 { margin: 6px 0 6px; font-size: 16px; }
+.tour-card p { margin: 0 0 12px; color: var(--muted); }
+.tour-wait { color: var(--faint) !important; margin: 0 !important; }
+.tour-progress { display: flex; gap: 4px; }
+.tour-progress span { height: 4px; flex: 1; border-radius: 2px; background: var(--border); }
+.tour-progress span.done { background: #9cc3e0; }
+.tour-progress span.on { background: var(--accent); }
+.tour-actions { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.tour-note { font-size: 12px; }
+.calc { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+.calc label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
+.calc input { font: inherit; font-size: 15px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); background: var(--surface); }
+.calc-out { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+.calc-out div { background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; }
+.calc-out span:last-child { font-size: 12px; color: var(--muted); }
+.calc-big { font-size: 20px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 700px) {
+  .tour-card, .tour.centered .tour-card { top: auto; bottom: 12px; left: 12px; right: 12px; width: auto; transform: none; max-height: 70vh; overflow: auto; }
+  .calc-out { grid-template-columns: 1fr; }
+  .tour-launch { padding: 5px 8px; font-size: 12px; }
+}
+
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .section-gap { margin-top: 16px; }
 
