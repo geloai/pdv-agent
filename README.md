@@ -2,11 +2,11 @@
 
 An AI agent that prepares the monthly Croatian VAT return (PDV) for an accounting practice. It reconciles the client's books with fiscalized eRačuni (Fiskalizacija 2.0) and the bank statement, reads foreign PDF invoices, drafts the VAT return and EC Sales List (ZP), and flags every exception green / orange / red with a plain-language explanation. The accountant reviews only the exceptions and signs off. The interface is in Croatian, since it's built for Croatian accounting teams.
 
-**Live demo:** [pdv-agent-wu6l.onrender.com](https://pdv-agent-wu6l.onrender.com) (free instance: the first load can take ~50 s) · **Video walkthrough (2 min):** _coming soon_
+**▶ [Guided tour (2 min)](https://pdv-agent-wu6l.onrender.com/#/obilazak)**: walks through the real app step by step and ends with a calculator that estimates the time and money saved for your own firm. · **Live demo:** [pdv-agent-wu6l.onrender.com](https://pdv-agent-wu6l.onrender.com)
 
 > All companies, people, tax numbers and amounts in this repository are **fictional**. The VAT rules are simplified and the law references must be verified by a tax professional before any real use.
 
-![Client page: findings with AI explanations](docs/screenshots/3-nalazi.jpg)
+![Guided tour: the agent finds a 1,126.63 EUR error in one client's VAT return](docs/screenshots/6-obilazak.jpg)
 
 ## How I approached it
 
@@ -38,10 +38,15 @@ For one client and one period (fictional **Nordtech Adriatic d.o.o.**, a Croatia
 4. **Drafts the email to the client** (HR + EN) for the documents that are missing.
 5. **Answers the accountant's questions** about the period ("What do I still need from the client?"), grounded in the findings and the VAT rules, with links back to the findings it relies on.
 6. **Shows the VAT return before and after the proposed corrections.** Accepting or dismissing a finding updates the draft return and the client's status in the portfolio.
+7. **Guided tour with a savings calculator.** A 10-step walkthrough of the real app focused on time and money saved; the last step lets a firm enter its own client count, minutes per client, team size and hourly value.
 
-| Draft VAT return | Client email |
+| Findings with AI explanations | Ask the agent |
 |---|---|
-| ![VAT return](docs/screenshots/4-pdv-obrazac.jpg) | ![Email](docs/screenshots/5-dopis-klijentu.jpg) |
+| ![Findings](docs/screenshots/3-nalazi.jpg) | ![Ask the agent](docs/screenshots/5-pitaj-agenta.jpg) |
+
+| Draft VAT return | Savings calculator |
+|---|---|
+| ![VAT return](docs/screenshots/4-pdv-prijava.jpg) | ![Savings calculator](docs/screenshots/7-kalkulator.jpg) |
 
 ## Design: AI where judgment is needed, plain code where numbers are
 
