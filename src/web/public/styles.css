@@ -214,6 +214,7 @@ details.sys summary { cursor: pointer; }
 .calc-big { font-size: 22px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
 
 html { scroll-padding-top: 72px; }
+.tour-card p.tour-note-short { display: none; }
 
 @media (max-width: 700px) {
   .brand { font-size: 0; gap: 0; }
@@ -222,11 +223,30 @@ html { scroll-padding-top: 72px; }
   .nav .step { display: none; }
   .tour-launch { margin-left: auto; }
   .tour-launch .long { display: none; }
-  .tour-card, .tour.centered .tour-card { top: auto; bottom: 12px; left: 12px; right: 12px; width: auto; transform: none; max-height: 72vh; overflow: auto; padding: 14px 16px; }
-  .tour-kpi { font-size: 24px; }
-  .tour-card h3 { font-size: 16px; }
-  .calc-title { font-size: 18px !important; }
-  .calc-hero-num { font-size: 30px; }
+  .tour-card, .tour.centered .tour-card { top: auto; bottom: 10px; left: 10px; right: 10px; width: auto; transform: none; max-height: 86vh; overflow: auto; padding: 12px 14px; border-top-width: 4px; }
+  .tour-step { display: none; }
+  .tour-kpi { font-size: 22px; margin-top: 8px; }
+  .tour-card h3 { font-size: 15px; margin: 4px 0; }
+  .tour-card p { font-size: 13.5px; margin-bottom: 10px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .calc-title { font-size: 17px !important; margin-top: 8px !important; }
+  .calc-opt, .tour-note-long { display: none !important; }
+  .tour-card p.tour-note-short { display: block; }
+  .calc-out { grid-template-columns: 1fr 1fr; }
+  .calc-hero-num { font-size: 28px; }
+  .calc-agent { font-size: 12.5px; padding: 6px 10px; }
+  .tour-card p.tour-note { -webkit-line-clamp: unset; display: block; }
+  /* app pages: only the key information */
+  .hide-sm { display: none; }
+  .sources { display: none; }
+  .tiles { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tile { padding: 10px 12px; }
+  .tile .value { font-size: 18px; }
+  .tile .sub { display: none; }
+  .meta span:nth-child(2), .meta span:nth-child(3) { display: none; }
+  h1 { font-size: 20px; }
+  .lede { font-size: 13.5px; }
+  .finding-body { padding: 12px 14px; }
+  details.sys { display: none; }
   .calc { gap: 8px; }
   .calc label { font-size: 11px; }
   .calc-out { gap: 6px; }

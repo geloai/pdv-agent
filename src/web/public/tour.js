@@ -7,6 +7,10 @@ const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const $ = (s) => document.querySelector(s);
 const isPhone = () => window.innerWidth < 700;
+const targetOf = (step) => {
+  const sel = typeof step.target === 'function' ? step.target() : step.target;
+  return sel ? $(sel) : null;
+};
 
 async function waitFor(fn, timeout = 20000) {
   const t0 = Date.now();
@@ -71,7 +75,7 @@ const STEPS = [
     async before() { await go('#/portfelj', 'tr[data-href]'); },
   },
   {
-    target: '.sources',
+    target: () => (isPhone() ? '.tiles' : '.sources'),
     kpi: '86 dokumenata u nekoliko sekundi',
     title: 'Agent pregleda sve umjesto računovođe',
     text: 'eRačune, strane PDF račune, knjige računa i bankovni izvod. Sve usporedi i primijeni PDV pravila.',
@@ -168,7 +172,7 @@ async function show() {
 
   if (step.calculator) return showCalculator();
 
-  const el = step.target && $(step.target);
+  const el = targetOf(step);
   root.classList.toggle('centered', !el);
   if (el) scrollToTarget(el);
   card.innerHTML = `
@@ -205,7 +209,7 @@ function place() {
   const spot = root.querySelector('.tour-spot');
   const card = root.querySelector('.tour-card');
   const step = STEPS[i];
-  const el = !step.calculator && step.target && $(step.target);
+  const el = !step.calculator && targetOf(step);
   if (!el) {
     spot.style.display = 'none';
     root.classList.add('centered');
@@ -247,17 +251,18 @@ function showCalculator() {
     <div class="calc">
       <label>Broj klijenata<input type="number" min="1" value="120" data-k="klijenti"></label>
       <label>Minuta po klijentu danas<input type="number" min="1" value="60" data-k="prije"></label>
-      <label>Računovođa koji rade PDV<input type="number" min="1" value="4" data-k="ljudi"></label>
-      <label>Vrijednost sata rada (€)<input type="number" min="1" value="60" data-k="sat"></label>
+      <label class="calc-opt">Računovođa koji rade PDV<input type="number" min="1" value="4" data-k="ljudi"></label>
+      <label class="calc-opt">Vrijednost sata rada (€)<input type="number" min="1" value="60" data-k="sat"></label>
     </div>
     <div class="calc-agent">S agentom: <b id="c-a"></b> po klijentu (samo pregled odstupanja)</div>
     <div class="calc-hero"><span class="calc-hero-num" id="c-y"></span><span>godišnje: vrijednost oslobođenog vremena</span></div>
     <div class="calc-out">
       <div><span class="calc-big" id="c-m"></span><span>mjesečno</span></div>
       <div><span class="calc-big" id="c-h"></span><span>sati mjesečno manje</span></div>
-      <div><span class="calc-big" id="c-p"></span><span>sati mjesečno po računovođi</span></div>
+      <div class="calc-opt"><span class="calc-big" id="c-p"></span><span>sati mjesečno po računovođi</span></div>
     </div>
-    <p class="tour-note">Procjena. Vrijednost sata je cijena po kojoj ured naplaćuje svoj rad. Ušteda ovisi o broju klijenata i vremenu po klijentu, a broj računovođa pokazuje koliko se vremena oslobađa po osobi, za nove klijente bez novog zapošljavanja. Točne brojke mjere se zajedno na vašim procesima.</p>
+    <p class="tour-note tour-note-short">Procjena za vaš ured; točne brojke mjere se zajedno.</p>
+    <p class="tour-note tour-note-long">Procjena. Vrijednost sata je cijena po kojoj ured naplaćuje svoj rad. Ušteda ovisi o broju klijenata i vremenu po klijentu, a broj računovođa pokazuje koliko se vremena oslobađa po osobi, za nove klijente bez novog zapošljavanja. Točne brojke mjere se zajedno na vašim procesima.</p>
     <p class="tour-note">Franko Gelo · <a href="mailto:franko.gelo1@gmail.com">franko.gelo1@gmail.com</a> · <a href="https://www.linkedin.com/in/franko-gelo-70ab3a404/" target="_blank" rel="noopener">LinkedIn</a></p>
     <div class="tour-actions">
       <button class="btn btn-sm tour-back">Natrag</button>

@@ -96,16 +96,16 @@ async function renderProcess() {
     </div>
     <div class="card">
       <div class="table-wrap"><table>
-        <thead><tr><th>Posao</th><th>Učestalost</th><th class="num">Klijenata</th><th class="num">Min / klijent</th><th>Sati mjesečno</th><th>Podaci</th><th>Rizik greške</th><th>Odluka</th></tr></thead>
+        <thead><tr><th>Posao</th><th class="hide-sm">Učestalost</th><th class="num hide-sm">Klijenata</th><th class="num hide-sm">Min / klijent</th><th>Sati mjesečno</th><th class="hide-sm">Podaci</th><th class="hide-sm">Rizik greške</th><th>Odluka</th></tr></thead>
         <tbody>${m.poslovi.map((p) => `
           <tr class="${p.odluka === 'PILOT' ? 'pilot' : ''}" title="${esc(p.obrazlozenje)}">
             <td class="task"><b>${esc(p.posao)}</b>${p.odluka === 'PILOT' ? `<div class="small muted">${esc(p.obrazlozenje)}</div>` : ''}</td>
-            <td>${esc(p.ucestalost)}</td>
-            <td class="num">${Math.round(p.udio * 100)} %</td>
-            <td class="num">${p.minuta}</td>
+            <td class="hide-sm">${esc(p.ucestalost)}</td>
+            <td class="num hide-sm">${Math.round(p.udio * 100)} %</td>
+            <td class="num hide-sm">${p.minuta}</td>
             <td class="bar-cell"><div class="bar-row"><div class="bar ${p.odluka === 'PILOT' ? 'pilot' : ''}" style="width:${Math.max(2, (p.satiMjesecno / max) * 140)}px"></div><span class="mono">${p.satiMjesecno} h</span></div></td>
-            <td>${esc(p.podaci)}</td>
-            <td>${esc(p.rizik)}</td>
+            <td class="hide-sm">${esc(p.podaci)}</td>
+            <td class="hide-sm">${esc(p.rizik)}</td>
             <td><span class="badge ${DECISION[p.odluka][1]}">${DECISION[p.odluka][0]}</span></td>
           </tr>`).join('')}
         </tbody>
@@ -142,16 +142,16 @@ async function renderPortfolio() {
       <div class="card tile"><div class="label">Otvorene stavke</div><div class="value">${open}</div><div class="sub">za pregled ili od klijenta</div></div>
     </div>
     <div class="card"><div class="table-wrap"><table>
-      <thead><tr><th>Klijent</th><th>Djelatnost</th><th>Vlasnik</th><th>Razdoblje</th><th>Status</th><th class="num">Otvorene stavke</th><th></th></tr></thead>
+      <thead><tr><th>Klijent</th><th class="hide-sm">Djelatnost</th><th class="hide-sm">Vlasnik</th><th class="hide-sm">Razdoblje</th><th>Status</th><th class="num hide-sm">Otvorene stavke</th><th class="hide-sm"></th></tr></thead>
       <tbody>${klijenti.map((k) => `
         <tr class="${k.ima_podatke ? 'clickable' : ''}" ${k.ima_podatke ? `data-href="#/klijent/${esc(k.id)}/${esc(k.period)}"` : ''}>
-          <td><b>${esc(k.naziv)}</b><div class="small muted mono">OIB ${esc(k.oib)}</div></td>
-          <td>${esc(k.djelatnost)}</td>
-          <td class="muted">${esc(k.vlasnik)}</td>
-          <td>${esc(periodLabel(k.period))} <span class="small muted">(${esc(k.porezno_razdoblje)})</span></td>
+          <td><b>${esc(k.naziv)}</b><div class="small muted mono hide-sm">OIB ${esc(k.oib)}</div></td>
+          <td class="hide-sm">${esc(k.djelatnost)}</td>
+          <td class="muted hide-sm">${esc(k.vlasnik)}</td>
+          <td class="hide-sm">${esc(periodLabel(k.period))} <span class="small muted">(${esc(k.porezno_razdoblje)})</span></td>
           <td>${statusBadge(k.status)}</td>
-          <td class="num">${k.otvorene_stavke ?? '—'}</td>
-          <td class="num">${k.ima_podatke ? '<a class="btn btn-sm">Otvori →</a>' : '<span class="small muted">sažetak</span>'}</td>
+          <td class="num hide-sm">${k.otvorene_stavke ?? '—'}</td>
+          <td class="num hide-sm">${k.ima_podatke ? '<a class="btn btn-sm">Otvori →</a>' : '<span class="small muted">sažetak</span>'}</td>
         </tr>`).join('')}
       </tbody>
     </table></div></div>
