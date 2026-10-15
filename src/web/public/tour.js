@@ -35,10 +35,17 @@ async function openTab(name, ready) {
   await waitFor(() => $(ready));
 }
 
+// Replaces the card's "loading" line while a step waits for the agent.
+const setWait = (text) => {
+  const w = document.querySelector('.tour-card .tour-wait');
+  if (w) w.textContent = text;
+};
+
 // Makes sure the client period has a finished run (the public demo may start from a fresh database).
 async function ensureRun() {
   await go(CLIENT, '#run, #run2');
   if (!$('.tiles')) {
+    setWait('Agent upravo pregledava dokumente…');
     ($('#run2') || $('#run')).click();
     await waitFor(() => $('.tiles') && !$('#run[disabled], #run2[disabled]'), 60000);
   }
@@ -109,7 +116,7 @@ const STEPS = [
     text: '"Što još trebam od klijenta?" Agent odgovara iz nalaza i PDV pravila, s poveznicama na svaki nalaz.',
     async before() {
       await openTab('agent', '[data-q]');
-      if (!$('.msg-a')) $('[data-q]').click();
+      if (!$('.msg-a')) { setWait('Agent odgovara…'); $('[data-q]').click(); }
       await waitFor(() => $('.msg-a') && !$('.msg-a .muted'), 30000);
     },
   },
