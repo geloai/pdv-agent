@@ -1,24 +1,19 @@
 # Render's free instances sleep after 15 minutes without traffic and can take minutes to wake up.
-# This pings the public demos so they respond immediately.
-# Working hours only, to stay within Render's 750 free instance hours per month (two services),
-# plus one-off weekend windows for the PDV demo listed in WEEKEND_DATES.
+# This pings the public demos so they respond immediately, while staying within Render's
+# 750 free instance hours per month (shared by both services):
+#   - PDV demo: around the clock until PDV_ALWAYS_UNTIL, then working hours only
+#   - Jadran Solar: working hours only (Monday–Friday, 05:00–18:59 UTC = 07–21 h Croatian summer time)
 name: Keep demos awake
 
 on:
   schedule:
-    # Working hours: every 10 minutes, Monday–Friday, 05:00–18:59 UTC (07–21 h Croatian summer time)
-    - cron: '*/10 5-18 * * 1-5'
-    # Weekend window (PDV demo only, and only on the dates below): Fri evening, Sat, Sun, Mon early morning
-    - cron: '*/10 19-23 * * 5'
-    - cron: '*/10 * * * 0,6'
-    - cron: '*/10 0-4 * * 1'
+    - cron: '*/10 * * * *'
   workflow_dispatch:
 
 env:
   PDV: https://pdv-agent-wu6l.onrender.com/api/ured
   JADRAN: https://jadran-solar.onrender.com/
-  # UTC dates on which the weekend window is active
-  WEEKEND_DATES: '2026-10-16 2026-10-17 2026-10-18 2026-10-19'
+  PDV_ALWAYS_UNTIL: '2026-10-31'
 
 jobs:
   ping:
@@ -26,17 +21,16 @@ jobs:
     timeout-minutes: 8
     steps:
       - name: Ping demos
-        env:
-          SCHEDULE: ${{ github.event.schedule }}
         run: |
-          if [ -z "$SCHEDULE" ] || [ "$SCHEDULE" = '*/10 5-18 * * 1-5' ]; then
-            urls="$PDV $JADRAN"
-          elif echo " $WEEKEND_DATES " | grep -q " $(date -u +%F) "; then
-            urls="$PDV"
-          else
-            echo "Weekend window not active today ($(date -u +%F)), nothing to do."
-            exit 0
-          fi
+          today=$(date -u +%F); hour=$(date -u +%H); dow=$(date -u +%u)   # dow: 1 = Monday … 7 = Sunday
+          working=false
+          if [ "$dow" -le 5 ] && [ "$hour" -ge 5 ] && [ "$hour" -le 18 ]; then working=true; fi
+
+          urls=""
+          if [ "$working" = true ] || [[ ! "$today" > "$PDV_ALWAYS_UNTIL" ]]; then urls="$PDV"; fi
+          if [ "$working" = true ]; then urls="$urls $JADRAN"; fi
+          if [ -z "$urls" ]; then echo "Outside the keep-awake window ($today $hour:xx UTC)."; exit 0; fi
+
           for url in $urls; do
             code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 120 --retry 4 --retry-delay 20 --retry-all-errors "$url" || true)
             echo "$url -> $code"
