@@ -137,10 +137,10 @@ app.post('/api/klijenti/:id/:period/pitaj', async (req, res) => {
       pravila: data.pravila,
     });
   } catch (e) {
-    const noKey = /API ključa/.test(e.message);
-    res.json({ greska: noKey
-      ? 'Javni demo radi bez API ključa, pa odgovara samo na predložena pitanja. Lokalno, s ključem, agent odgovara na bilo koje pitanje.'
-      : `Agent trenutno ne može odgovoriti: ${e.message}` });
+    if (/API ključa/.test(e.message)) {
+      return res.json({ info: 'Ovo je demo verzija, pa agent odgovara na ponuđena pitanja iznad. U punoj verziji možete ga pitati bilo što o klijentu i njegovim dokumentima.' });
+    }
+    res.json({ greska: `Agent trenutno ne može odgovoriti: ${e.message}` });
   }
 });
 

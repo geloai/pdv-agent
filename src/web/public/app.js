@@ -86,11 +86,11 @@ async function renderProcess() {
       <div>
         <p class="eyebrow">Korak 1 · Mapiraj i izmjeri</p>
         <h1>Gdje odlaze sati u računovodstvenom uredu?</h1>
-        <p class="lede">Prije bilo kakvog programiranja: popis poslova koji se ponavljaju, koliko često, koliko traju i koliko su podaci spremni za automatizaciju. Prvi pilot je posao koji ima najbolji omjer utjecaja i rizika, ne nužno onaj s najviše sati.</p>
+        <p class="lede">Prvi korak prije automatizacije: koji poslovi troše najviše sati i gdje AI donosi najveću uštedu.</p>
       </div>
     </div>
     <div class="tiles">
-      <div class="card tile"><div class="label">Klijenata u uredu</div><div class="value">${m.klijenata}</div><div class="sub">izmišljeni ured</div></div>
+      <div class="card tile"><div class="label">Klijenata u uredu</div><div class="value">${m.klijenata}</div><div class="sub">primjer ureda</div></div>
       <div class="card tile"><div class="label">Ponavljajući posao</div><div class="value">≈ ${m.ukupnoSatiMjesecno.toLocaleString('hr-HR')} h / mj.</div><div class="sub">zbroj procjena ispod</div></div>
       <div class="card tile emph"><div class="label">Pilot: ${esc(pilot.posao)}</div><div class="value">≈ ${pilot.ustedaSatiMjesecno} h / mj.</div><div class="sub">procjena uštede: ${pilot.minuta} → ${pilot.minutaNakon} min po klijentu</div></div>
     </div>
@@ -99,7 +99,7 @@ async function renderProcess() {
         <thead><tr><th>Posao</th><th>Učestalost</th><th class="num">Klijenata</th><th class="num">Min / klijent</th><th>Sati mjesečno</th><th>Podaci</th><th>Rizik greške</th><th>Odluka</th></tr></thead>
         <tbody>${m.poslovi.map((p) => `
           <tr class="${p.odluka === 'PILOT' ? 'pilot' : ''}" title="${esc(p.obrazlozenje)}">
-            <td class="task"><b>${esc(p.posao)}</b><div class="small muted">${esc(p.obrazlozenje)}</div></td>
+            <td class="task"><b>${esc(p.posao)}</b>${p.odluka === 'PILOT' ? `<div class="small muted">${esc(p.obrazlozenje)}</div>` : ''}</td>
             <td>${esc(p.ucestalost)}</td>
             <td class="num">${Math.round(p.udio * 100)} %</td>
             <td class="num">${p.minuta}</td>
@@ -115,7 +115,7 @@ async function renderProcess() {
       <div class="callout"><b>Zašto PDV usklada prvo</b>
         <p>Rade je svi klijenti svaki mjesec s fiksnim rokom, a greške koštaju. Od Fiskalizacije 2.0 ulazni i izlazni računi su strukturirani podaci. Rezultat se jednostavno provjeri: sustav mora dobiti isto što je računovođa dobio ručno.</p>
       </div>
-      <div class="note"><b>Napomena:</b> ${esc(m.napomena)} U stvarnom projektu ove se brojke mjere zajedno s timom prije izrade. Formula: učestalost × udio klijenata × broj klijenata × minute.</div>
+      <div class="note">${esc(m.napomena)} Na stvarnom projektu mjere se zajedno s timom, prije izrade.</div>
     </div>
     <p class="section-gap"><a class="btn btn-primary" href="#/portfelj">Korak 2: Pilot na portfelju klijenata →</a></p>`;
 }
@@ -155,7 +155,7 @@ async function renderPortfolio() {
         </tr>`).join('')}
       </tbody>
     </table></div></div>
-    <p class="note section-gap">Za demo su potpuni izvorni dokumenti generirani za Nordtech Adriatic. Ostali klijenti prikazuju samo status.</p>`;
+    <p class="note section-gap">U demo verziji detaljno je prikazan klijent Nordtech Adriatic.</p>`;
   app.querySelectorAll('tr[data-href]').forEach((tr) => tr.addEventListener('click', () => (location.hash = tr.dataset.href)));
 }
 
@@ -220,7 +220,7 @@ function drawClient(runlog = '') {
       <div class="card tile"><div class="label">Usklađeni retci u knjigama</div><div class="value">${green} / ${rows.length}</div><div class="sub">bez potrebe za pregledom</div></div>
     </div>
     <div class="tabs">
-      ${tabBtn('nalazi', 'Nalazi', s.nalazi.length)}${tabBtn('agent', 'Pitaj agenta')}${tabBtn('obrazac', 'Nacrt PDV obrasca')}${tabBtn('knjige', 'Knjige', rows.length)}${tabBtn('banka', 'Banka', s.banka.length)}${tabBtn('dopis', 'Dopis klijentu')}
+      ${tabBtn('nalazi', 'Nalazi', s.nalazi.length)}${tabBtn('agent', 'Pitaj agenta')}${tabBtn('obrazac', 'PDV prijava')}${tabBtn('knjige', 'Knjige računa', rows.length)}${tabBtn('banka', 'Bankovni izvod', s.banka.length)}${tabBtn('dopis', 'Dopis klijentu')}
     </div>
     <div id="tab"></div>`;
   app.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => { tab = b.dataset.tab; drawClient(); }));
@@ -245,9 +245,9 @@ function drawTab() {
 function agentHtml() {
   const msgs = chat.map((m) => `
     <div class="msg msg-q">${esc(m.q)}</div>
-    <div class="msg msg-a ${m.greska ? 'msg-err' : ''}">
+    <div class="msg msg-a ${m.greska ? 'msg-err' : ''} ${m.info ? 'msg-info' : ''}">
       <div class="ai-label">PDV agent</div>
-      ${m.pending ? '<p class="muted">Agent razmišlja…</p>' : m.greska ? `<p>${esc(m.greska)}</p>` : `
+      ${m.pending ? '<p class="muted">Agent razmišlja…</p>' : m.info ? `<p>${esc(m.info)}</p>` : m.greska ? `<p>${esc(m.greska)}</p>` : `
         <p>${esc(m.a.uvod)}</p>
         ${m.a.stavke?.length ? `<ul>${m.a.stavke.map((s) => `<li>${esc(s)}</li>`).join('')}</ul>` : ''}
         ${m.a.zakljucak ? `<p>${esc(m.a.zakljucak)}</p>` : ''}
@@ -294,7 +294,7 @@ async function ask(q) {
     const r = await api(`/api/klijenti/${id}/${period}/pitaj`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pitanje: q }),
     });
-    Object.assign(msg, r.greska ? { greska: r.greska } : { a: { uvod: r.uvod, stavke: r.stavke, zakljucak: r.zakljucak }, povezani: r.povezani, pravila: r.pravila });
+    Object.assign(msg, r.info ? { info: r.info } : r.greska ? { greska: r.greska } : { a: { uvod: r.uvod, stavke: r.stavke, zakljucak: r.zakljucak }, povezani: r.povezani, pravila: r.pravila });
   } catch (e) {
     msg.greska = `Greška: ${e.message}`;
   }
@@ -373,6 +373,7 @@ function formHtml() {
   const ids = [...new Set([...zpA, ...zpB].map((z) => z.vat_id))];
   const zp = (list, id) => list.find((z) => z.vat_id === id)?.usluge ?? 0;
   return `
+    <p class="tab-intro">Nacrt PDV prijave koju ured svaki mjesec predaje Poreznoj upravi: koliko PDV-a klijent duguje. Prikazana je prije i nakon ispravaka koje je agent predložio.</p>
     <div class="card"><div class="table-wrap"><table>
       <thead><tr><th>Stavka</th><th class="num">Prema knjigama</th><th class="num">Nakon ispravaka</th><th class="num">Razlika</th></tr></thead>
       <tbody>
@@ -401,7 +402,7 @@ function formHtml() {
         <thead><tr><th>PDV ID kupca</th><th class="num">Prema knjigama</th><th class="num">Nakon ispravaka</th></tr></thead>
         <tbody>${ids.map((id) => `<tr><td class="mono">${esc(id)}</td><td class="num">${eur(zp(zpA, id))}</td><td class="num">${eur(zp(zpB, id))}</td></tr>`).join('') || '<tr><td colspan="3" class="muted">Nema</td></tr>'}</tbody>
       </table></div></div>
-    <p class="note section-gap">Pojednostavljeni prikaz grupiran po značenju. Mapiranje na službene retke obrasca PDV i PDV-S mora provjeriti porezni stručnjak. "Nakon ispravaka" uključuje sve ispravke koje računovođa nije odbacio.</p>`;
+    <p class="note section-gap">Pojednostavljeni prikaz grupiran po značenju; u punoj verziji mapira se na službene retke obrasca PDV i PDV-S. "Nakon ispravaka" uključuje sve ispravke koje računovođa nije odbacio.</p>`;
 }
 
 // ---------- books & bank ----------
@@ -415,12 +416,13 @@ function booksHtml() {
         <td>${esc(r.partner)}<div class="small muted">${esc(r.opis ?? '')}</div></td><td class="small">${esc(VRSTA[r.vrsta] ?? r.vrsta)}</td>
         <td class="num">${eur(r.osnovica)}</td><td class="num">${eur(r.pdv)}</td>${ura ? `<td class="num">${eur(r.pretporez)}</td>` : ''}</tr>`).join('')}
       </tbody></table></div></div>`;
-  return `<p class="note">Status retka prema pravilima usklade. Zeleni retci odgovaraju eRačunu, računu i banci te ne trebaju pregled.</p>
+  return `<p class="tab-intro">Popis svih računa koje je klijent u mjesecu primio (knjiga ulaznih računa, URA) i izdao (knjiga izlaznih računa, IRA). Zelena knjiženja agent je potvrdio prema eRačunu i banci, pa ih računovođa ne mora pregledavati.</p>
     ${table('Knjiga ulaznih računa (URA)', state.ura, true)}${table('Knjiga izlaznih računa (IRA)', state.ira, false)}`;
 }
 
 function bankHtml() {
-  return `<div class="card"><div class="table-wrap"><table>
+  return `<p class="tab-intro">Sve uplate i isplate s računa klijenta u mjesecu. Agent ih spaja s računima, prepoznaje plaće i poreze te pronalazi plaćanja za koja nema računa.</p>
+    <div class="card"><div class="table-wrap"><table>
     <thead><tr><th></th><th>Datum</th><th>Opis</th><th>Protustrana</th><th>Uparivanje</th><th class="num">Iznos</th></tr></thead>
     <tbody>${state.banka.map((t) => `<tr>
       <td>${sevBadge(t.status)}</td><td>${hrDate(t.datum)}</td><td>${esc(t.opis)}</td><td>${esc(t.protustrana)}</td>

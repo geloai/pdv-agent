@@ -2,7 +2,7 @@
 // ILLUSTRATIVE ESTIMATES for a fictional firm — in a real engagement these numbers are
 // measured together with the team before anything is built.
 
-export const PRACTICE = { klijenata: 120, napomena: 'Ilustrativna procjena za izmišljeni ured, ne mjerenje.' };
+export const PRACTICE = { klijenata: 120, napomena: 'Brojke su procjena za primjer ureda.' };
 
 const PER_YEAR = { mjesečno: 12, tromjesečno: 4, godišnje: 1 };
 
