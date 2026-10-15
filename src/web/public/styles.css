@@ -162,6 +162,23 @@ details.sys summary { cursor: pointer; }
 .email .subject { font-weight: 600; margin-bottom: 10px; }
 .email pre { font-family: var(--font); white-space: pre-wrap; margin: 0; }
 
+/* ---------- ask the agent ---------- */
+.chat { display: flex; flex-direction: column; gap: 10px; margin: 12px 0; }
+.msg { max-width: 82%; border-radius: 12px; padding: 10px 14px; }
+.msg p { margin: 4px 0 0; white-space: pre-wrap; }
+.msg ol { margin: 6px 0 0; padding-left: 20px; }
+.msg li { margin: 3px 0; }
+.msg-q { align-self: flex-end; background: var(--accent); color: #fff; border-bottom-right-radius: 4px; }
+.msg-a { align-self: flex-start; background: var(--surface-2); border: 1px solid var(--border); border-bottom-left-radius: 4px; }
+.msg-a .ai-label { font-size: 11px; font-weight: 600; color: var(--accent); letter-spacing: 0.03em; text-transform: uppercase; }
+.msg-err { background: var(--orange-soft); border-color: #f1d2a6; }
+.msg .finding-tags a.badge { text-decoration: none; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+.chips .btn { font-size: 12.5px; }
+.ask { display: flex; gap: 8px; }
+.ask input { flex: 1; font: inherit; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--text); }
+.ask input:focus { outline: 2px solid var(--accent-soft); border-color: var(--accent); }
+
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .section-gap { margin-top: 16px; }
 

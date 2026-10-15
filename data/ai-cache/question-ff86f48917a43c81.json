@@ -1,0 +1,64 @@
+{
+  "data": {
+    "uvod": "PDV za uplatu raste s 7.235,34 € na 8.361,97 € jer predloženi ispravci uglavnom smanjuju neopravdano iskazani pretporez, a samo dva ispravka ga povećavaju.",
+    "stavke": [
+      "Povećanja: 96/1/1 (Adria Kadrovi) pripada razdoblju 2026-10: +800,00 €",
+      "77/1/1 (Sigurnost Plus) nema eRačun: +245,00 €",
+      "9921034/2/9 (Telekom Adria) proknjižen dvaput: +97,48 €",
+      "55120/4/2 (Petrol Centar), osobno vozilo, 50 % pretporeza: +51,60 €",
+      "881/2/1 (Restoran Gornji Grad), reprezentacija: +37,18 €",
+      "Smanjenja: 742/1/1 (Uredski Svijet), ispravak prema eRačunu: −67,50 €",
+      "12044/1/1 (Kurirska Brzina), neproknjižen eRačun: −37,13 €",
+      "EU stavke Nordtech Systems GmbH i plaćanje Horvat i Partneri ne mijenjaju iznos (0,00 €)."
+    ],
+    "zakljucak": "Za 55120/4/2 i 12044/1/1 potrebna je provjera s klijentom, pa se konačni iznos još može promijeniti.",
+    "povezani_nalazi": [
+      "Račun 96/1/1 ne pripada razdoblju",
+      "Nema eRačuna za račun 77/1/1",
+      "Račun 9921034/2/9 proknjižen dva puta",
+      "Osobno vozilo: pretporez veći od 50 % (55120/4/2)",
+      "Pretporez na reprezentaciju (881/2/1)",
+      "Iznos u knjizi ne odgovara eRačunu 742/1/1",
+      "eRačun 12044/1/1 nije proknjižen"
+    ],
+    "pravila": [
+      "R-RAZDOBLJE",
+      "R-ERACUN",
+      "R-DUPLI",
+      "R-VOZILA",
+      "R-REPREZENTACIJA",
+      "R-IZNOS",
+      "R-KNJIZENJE"
+    ]
+  },
+  "model": "claude-opus-5-5",
+  "usage": {
+    "input_tokens": 8231,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "iterations": [
+      {
+        "input_tokens": 8231,
+        "output_tokens": 713,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message",
+        "model": null
+      }
+    ],
+    "output_tokens": 713,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  }
+}

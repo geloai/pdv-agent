@@ -120,3 +120,48 @@ export async function draftClientRequest({ client, period, firm, findings }) {
   });
   return { data, usage, cached };
 }
+
+// ---------- 4. Answer the accountant's question about the period ----------
+
+// Findings are referenced by title (unique per run), so no internal numbers can leak into the answer.
+const answerSchema = (titles) => obj({
+  uvod: { type: 'string', description: 'one or two sentences that answer the question directly, in Croatian' },
+  stavke: { type: 'array', items: { type: 'string' }, description: 'when the answer has several parts (documents, findings, steps), one short item each; otherwise empty' },
+  zakljucak: { type: 'string', description: 'optional closing note or next step, in Croatian; empty if not needed' },
+  povezani_nalazi: { type: 'array', items: { type: 'string', enum: titles }, description: 'titles of the findings the answer relies on' },
+  pravila: { type: 'array', items: { type: 'string', enum: [...RULE_IDS] } },
+});
+
+// `context` must be stable (no ids, statuses or timestamps) so prepared questions hit the cache.
+export async function answerQuestion({ client, period, summary, findings, question }) {
+  const list = findings.map((f) => ({
+    naslov: f.naslov,
+    ozbiljnost: f.ozbiljnost,
+    partner: f.partner,
+    broj_racuna: f.broj_racuna,
+    detalji: f.detalji,
+    utjecaj_na_pdv_za_uplatu: `${toHrAmount(f.utjecaj_za_uplatu)} €`,
+    treba_dokument_od_klijenta: Boolean(f.zahtjev_klijentu),
+    objasnjenje: f.ai?.objasnjenje ?? null,
+    preporuka: f.ai?.preporuka ?? null,
+    pravilo: f.ai?.pravilo_id ?? null,
+    treba_strucnu_provjeru: f.ai?.treba_strucnu_provjeru ?? null,
+  }));
+  return askJson({
+    task: 'question',
+    effort: 'low',
+    system:
+      'You are the VAT agent inside an accounting firm\'s workflow tool. An accountant asks you about one client\'s VAT period. ' +
+      'Answer in Croatian, briefly and concretely, like a helpful senior colleague. ' +
+      'Use only the data and rules provided: the findings were produced by a deterministic engine and every amount is already computed, so quote amounts exactly as given and never calculate new ones. ' +
+      'If the question cannot be answered from this data, say so and suggest what would be needed. ' +
+      'Keep the whole answer under ~120 words. In the text, refer to findings by invoice number and partner. List the findings and rules your answer relies on. Plain text, no markdown.\n\n<pravila>\n' + RULES + '\n</pravila>',
+    content: [{
+      type: 'text',
+      text: `Klijent: ${client.naziv} (${client.djelatnost}; vlasnik ${client.vlasnik}). Razdoblje: ${period}. Rok za predaju: ${client.rok_prijave}.\n` +
+        `PDV za uplatu prema knjigama: ${toHrAmount(summary.za_uplatu_prema_knjigama)} €; nakon svih predloženih ispravaka: ${toHrAmount(summary.za_uplatu_nakon_ispravaka)} €.\n\n` +
+        `<nalazi>\n${JSON.stringify(list, null, 2)}\n</nalazi>\n\n<pitanje>\n${question}\n</pitanje>`,
+    }],
+    schema: answerSchema(findings.map((f) => f.naslov)),
+  });
+}

@@ -1,6 +1,13 @@
 // PDV Agent dashboard: hash-routed single page, no build step.
 const app = document.getElementById('app');
 
+// Client page state (declared before the router runs).
+let state = null;
+let tab = 'nalazi';
+let lang = 'hr';
+let chat = []; // [{ q, a?, povezani?, pravila?, greska?, pending? }]
+let suggestions = [];
+
 // ---------- helpers ----------
 
 const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -146,13 +153,10 @@ async function renderPortfolio() {
 
 // ---------- 3. client period ----------
 
-let state = null;
-let tab = 'nalazi';
-let lang = 'hr';
-
 async function renderClient(id, period) {
   setNav('portfelj');
-  state = await api(`/api/klijenti/${id}/${period}`);
+  if (state?.klijent?.id !== id) chat = [];
+  [state, suggestions] = await Promise.all([api(`/api/klijenti/${id}/${period}`), suggestions.length ? suggestions : api('/api/pitanja')]);
   drawClient();
 }
 
@@ -208,7 +212,7 @@ function drawClient(runlog = '') {
       <div class="card tile"><div class="label">Usklađeni retci u knjigama</div><div class="value">${green} / ${rows.length}</div><div class="sub">bez potrebe za pregledom</div></div>
     </div>
     <div class="tabs">
-      ${tabBtn('nalazi', 'Nalazi', s.nalazi.length)}${tabBtn('obrazac', 'Nacrt PDV obrasca')}${tabBtn('knjige', 'Knjige', rows.length)}${tabBtn('banka', 'Banka', s.banka.length)}${tabBtn('dopis', 'Dopis klijentu')}
+      ${tabBtn('nalazi', 'Nalazi', s.nalazi.length)}${tabBtn('agent', 'Pitaj agenta')}${tabBtn('obrazac', 'Nacrt PDV obrasca')}${tabBtn('knjige', 'Knjige', rows.length)}${tabBtn('banka', 'Banka', s.banka.length)}${tabBtn('dopis', 'Dopis klijentu')}
     </div>
     <div id="tab"></div>`;
   app.querySelectorAll('.tabs button').forEach((b) => b.addEventListener('click', () => { tab = b.dataset.tab; drawClient(); }));
@@ -224,7 +228,70 @@ function drawTab() {
   else if (tab === 'knjige') el.innerHTML = booksHtml();
   else if (tab === 'banka') el.innerHTML = bankHtml();
   else if (tab === 'dopis') { el.innerHTML = emailHtml(); bindEmail(); }
+  else if (tab === 'agent') { el.innerHTML = agentHtml(); bindAgent(); }
   else { el.innerHTML = findingsHtml(); bindFindings(); }
+}
+
+// ---------- ask the agent ----------
+
+function agentHtml() {
+  const msgs = chat.map((m) => `
+    <div class="msg msg-q">${esc(m.q)}</div>
+    <div class="msg msg-a ${m.greska ? 'msg-err' : ''}">
+      <div class="ai-label">PDV agent</div>
+      ${m.pending ? '<p class="muted">Agent razmišlja…</p>' : m.greska ? `<p>${esc(m.greska)}</p>` : `
+        <p>${esc(m.a.uvod)}</p>
+        ${m.a.stavke?.length ? `<ol>${m.a.stavke.map((s) => `<li>${esc(s)}</li>`).join('')}</ol>` : ''}
+        ${m.a.zakljucak ? `<p>${esc(m.a.zakljucak)}</p>` : ''}
+        ${m.povezani?.length || m.pravila?.length ? `<div class="finding-tags">
+          ${(m.povezani ?? []).map((p) => `<a href="#" class="badge b-outline" data-goto="${p.id}">↗ ${esc(p.naslov)}</a>`).join('')}
+          ${(m.pravila ?? []).map((r) => `<span class="badge b-outline">Pravilo ${esc(r)}</span>`).join('')}
+        </div>` : ''}`}
+    </div>`).join('');
+  const busy = chat.some((m) => m.pending);
+  return `
+    <div class="card card-pad">
+      <p class="muted small" style="margin-top:0">Pitaj agenta o ovom razdoblju. Odgovara iz nalaza usklade i baze PDV pravila, a iznose ne računa sam.</p>
+      <div class="chat">${msgs || ''}</div>
+      <div class="chips">${suggestions.map((q) => `<button class="btn btn-sm" data-q="${esc(q)}" ${busy ? 'disabled' : ''}>${esc(q)}</button>`).join('')}</div>
+      <form class="ask" id="ask">
+        <input id="ask-input" type="text" maxlength="500" placeholder="Npr. Što ako klijent ne dostavi eRačun do roka?" ${busy ? 'disabled' : ''} autocomplete="off">
+        <button class="btn btn-primary" type="submit" ${busy ? 'disabled' : ''}>Pitaj</button>
+      </form>
+    </div>`;
+}
+
+function bindAgent() {
+  document.querySelectorAll('[data-q]').forEach((b) => b.addEventListener('click', () => ask(b.dataset.q)));
+  document.getElementById('ask')?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const q = document.getElementById('ask-input').value.trim();
+    if (q) ask(q);
+  });
+  document.querySelectorAll('[data-goto]').forEach((a) => a.addEventListener('click', (e) => {
+    e.preventDefault();
+    tab = 'nalazi';
+    drawClient();
+    document.getElementById(`nalaz-${a.dataset.goto}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }));
+  document.querySelector('.chat .msg:last-child')?.scrollIntoView({ block: 'nearest' });
+}
+
+async function ask(q) {
+  const { id, period } = state.klijent;
+  const msg = { q, pending: true };
+  chat.push(msg);
+  drawTab();
+  try {
+    const r = await api(`/api/klijenti/${id}/${period}/pitaj`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pitanje: q }),
+    });
+    Object.assign(msg, r.greska ? { greska: r.greska } : { a: { uvod: r.uvod, stavke: r.stavke, zakljucak: r.zakljucak }, povezani: r.povezani, pravila: r.pravila });
+  } catch (e) {
+    msg.greska = `Greška: ${e.message}`;
+  }
+  msg.pending = false;
+  if (tab === 'agent') drawTab();
 }
 
 // ---------- findings ----------
@@ -243,7 +310,7 @@ function findingsHtml() {
     const ai = f.ai;
     const done = f.status !== 'OTVORENO';
     return `
-    <div class="card finding ${f.ozbiljnost} ${done ? 'done' : ''}">
+    <div class="card finding ${f.ozbiljnost} ${done ? 'done' : ''}" id="nalaz-${f.id}">
       <div class="stripe"></div>
       <div class="finding-body">
         <div class="finding-top">

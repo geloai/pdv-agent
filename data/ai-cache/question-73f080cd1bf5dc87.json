@@ -1,0 +1,57 @@
+{
+  "data": {
+    "uvod": "Od klijenta su prije predaje prijave (rok 2026-10-20) potrebni dokumenti za dva nalaza i potvrde za još tri.",
+    "stavke": [
+      "Sigurnost Plus d.o.o., račun 77/1/1: dobavljač treba izdati eRačun. Do tada isključiti pretporez od 245,00 €.",
+      "Horvat i Partneri odvjetničko društvo d.o.o., plaćanje 2.950,00 € od 2026-09-22: razjasniti o čemu je riječ i zatražiti eRačun za predujam.",
+      "Kurirska Brzina d.o.o., eRačun 12044/1/1: potvrditi namjenu troška prije knjiženja.",
+      "Petrol Centar d.o.o., račun 55120/4/2: potvrditi vrstu vozila i način korištenja (50 % ili iznimka).",
+      "Restoran Gornji Grad d.o.o., račun 881/2/1: potvrditi da je riječ o ugošćivanju partnera, a ne o službenom putu."
+    ],
+    "zakljucak": "Ostale ispravke (dupli račun Telekom Adria, 96/1/1, 742/1/1 i EU računi Nordtech Systems GmbH) možete napraviti sami, bez klijenta.",
+    "povezani_nalazi": [
+      "Nema eRačuna za račun 77/1/1",
+      "Plaćanje bez računa: Horvat i Partneri odvjetničko društvo d.o.o.",
+      "eRačun 12044/1/1 nije proknjižen",
+      "Osobno vozilo: pretporez veći od 50 % (55120/4/2)",
+      "Pretporez na reprezentaciju (881/2/1)"
+    ],
+    "pravila": [
+      "R-ERACUN",
+      "R-PREDUJAM",
+      "R-KNJIZENJE",
+      "R-VOZILA",
+      "R-REPREZENTACIJA"
+    ]
+  },
+  "model": "claude-opus-5-5",
+  "usage": {
+    "input_tokens": 8225,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "cache_creation": {
+      "ephemeral_5m_input_tokens": 0,
+      "ephemeral_1h_input_tokens": 0
+    },
+    "iterations": [
+      {
+        "input_tokens": 8225,
+        "output_tokens": 633,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 0
+        },
+        "type": "message",
+        "model": null
+      }
+    ],
+    "output_tokens": 633,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "service_tier": "standard",
+    "inference_geo": "global"
+  }
+}

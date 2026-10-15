@@ -6,6 +6,7 @@ import { readFileSync } from 'node:fs';
 import { openDb, ROOT } from './db.js';
 import { loadPeriod, reconcile, runReconciliation, applyCorrections, totalsOf } from './core/reconcile.js';
 import { runAgent } from './ai/pipeline.js';
+import { answerQuestion } from './ai/tasks.js';
 import { processMap } from './web/process-map.js';
 import { importPortfolio, importClientPeriod } from './import.js';
 
@@ -103,6 +104,44 @@ app.post('/api/klijenti/:id/:period/pokreni', async (req, res) => {
   }
   send({ tip: 'gotovo' });
   res.end();
+});
+
+// Prepared questions are answered once with an API key and committed to the AI cache,
+// so the public demo (no key) can answer them too.
+const PREDLOZENA_PITANJA = [
+  'Što još trebam od klijenta prije predaje prijave?',
+  'Zašto se za gorivo priznaje samo 50 % pretporeza?',
+  'Zašto se PDV za uplatu povećava za 1.126,63 €?',
+  'Koji nalazi traže stručnu provjeru prije predaje?',
+];
+
+app.get('/api/pitanja', (req, res) => res.json(PREDLOZENA_PITANJA));
+
+app.post('/api/klijenti/:id/:period/pitaj', async (req, res) => {
+  const pitanje = String(req.body?.pitanje ?? '').trim().slice(0, 500);
+  if (!pitanje) return res.status(400).json({ greska: 'Pitanje je prazno.' });
+  const { id, period } = req.params;
+  const klijent = db.prepare(`SELECT c.*, p.rok_prijave FROM clients c JOIN periods p ON p.client_id = c.id
+    WHERE c.id = ? AND p.period = ?`).get(id, period);
+  const run = db.prepare('SELECT * FROM runs WHERE client_id = ? AND period = ? ORDER BY id DESC LIMIT 1').get(id, period);
+  if (!klijent || !run) return res.status(400).json({ greska: 'Prvo pokreni uskladu.' });
+  const nalazi = db.prepare('SELECT * FROM findings WHERE run_id = ? ORDER BY id').all(run.id)
+    .map((f) => ({ ...f, ai: parse(f.ai_objasnjenje, null) }));
+  try {
+    const { data } = await answerQuestion({ client: klijent, period, summary: parse(run.summary, {}), findings: nalazi, question: pitanje });
+    res.json({
+      uvod: data.uvod,
+      stavke: data.stavke,
+      zakljucak: data.zakljucak,
+      povezani: data.povezani_nalazi.map((t) => nalazi.find((f) => f.naslov === t)).filter(Boolean).map((f) => ({ id: f.id, naslov: f.naslov })),
+      pravila: data.pravila,
+    });
+  } catch (e) {
+    const noKey = /API ključa/.test(e.message);
+    res.json({ greska: noKey
+      ? 'Javni demo radi bez API ključa, pa odgovara samo na predložena pitanja. Lokalno, s ključem, agent odgovara na bilo koje pitanje.'
+      : `Agent trenutno ne može odgovoriti: ${e.message}` });
+  }
 });
 
 app.post('/api/nalazi/:id/status', (req, res) => {
