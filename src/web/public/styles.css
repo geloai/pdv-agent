@@ -204,7 +204,15 @@ details.sys summary { cursor: pointer; }
 .calc-out span:last-child { font-size: 12px; color: var(--muted); }
 .calc-big { font-size: 20px; font-weight: 700; color: var(--accent); font-variant-numeric: tabular-nums; }
 
+html { scroll-padding-top: 72px; }
+
 @media (max-width: 700px) {
+  .brand { font-size: 0; gap: 0; }
+  .brand-mark { font-size: 13px; }
+  .nav a { padding: 6px 8px; font-size: 13px; }
+  .nav .step { display: none; }
+  .tour-launch { margin-left: auto; }
+  .tour-launch .long { display: none; }
   .tour-card, .tour.centered .tour-card { top: auto; bottom: 12px; left: 12px; right: 12px; width: auto; transform: none; max-height: 70vh; overflow: auto; }
   .calc-out { grid-template-columns: 1fr; }
   .tour-launch { padding: 5px 8px; font-size: 12px; }
