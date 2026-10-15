@@ -198,7 +198,7 @@ details.sys summary { cursor: pointer; }
 .tour-note { font-size: 12px; }
 .calc { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
 .calc label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
-.calc input { font: inherit; font-size: 15px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); background: var(--surface); }
+.calc input { min-width: 0; width: 100%; font: inherit; font-size: 15px; padding: 7px 10px; border: 1px solid var(--border); border-radius: 8px; color: var(--text); background: var(--surface); }
 .calc-out { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
 .calc-out div { background: var(--accent-soft); border-radius: 10px; padding: 10px 12px; display: flex; flex-direction: column; }
 .calc-out span:last-child { font-size: 12px; color: var(--muted); }
@@ -214,7 +214,12 @@ html { scroll-padding-top: 72px; }
   .tour-launch { margin-left: auto; }
   .tour-launch .long { display: none; }
   .tour-card, .tour.centered .tour-card { top: auto; bottom: 12px; left: 12px; right: 12px; width: auto; transform: none; max-height: 70vh; overflow: auto; }
-  .calc-out { grid-template-columns: 1fr; }
+  .calc { gap: 8px; }
+  .calc label { font-size: 11px; }
+  .calc-out { gap: 6px; }
+  .calc-out div { padding: 8px; }
+  .calc-big { font-size: 16px; }
+  .calc-out span:last-child { font-size: 11px; }
   .tour-launch { padding: 5px 8px; font-size: 12px; }
 }
 
