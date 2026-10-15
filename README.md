@@ -2,7 +2,7 @@
 
 An AI agent that prepares the monthly Croatian VAT return (PDV) for an accounting practice. It reconciles the client's books with fiscalized eRačuni (Fiskalizacija 2.0) and the bank statement, reads foreign PDF invoices, drafts the VAT return and EC Sales List (ZP), and flags every exception green / orange / red with a plain-language explanation. The accountant reviews only the exceptions and signs off. The interface is in Croatian, since it's built for Croatian accounting teams.
 
-**Live demo:** [pdv-agent-wu6l.onrender.com](https://pdv-agent-wu6l.onrender.com) (free instance: the first load can take ~50 s) · **Video walkthrough (90 s):** _coming soon_
+**Live demo:** [pdv-agent-wu6l.onrender.com](https://pdv-agent-wu6l.onrender.com) (free instance: the first load can take ~50 s) · **Video walkthrough (2 min):** _coming soon_
 
 > All companies, people, tax numbers and amounts in this repository are **fictional**. The VAT rules are simplified and the law references must be verified by a tax professional before any real use.
 
@@ -36,7 +36,8 @@ For one client and one period (fictional **Nordtech Adriatic d.o.o.**, a Croatia
    - payments with no invoice.
 3. **Explains each finding** in plain Croatian with a recommendation, the rule it relies on, a confidence level, and a flag when expert review is needed.
 4. **Drafts the email to the client** (HR + EN) for the documents that are missing.
-5. **Shows the VAT return before and after the proposed corrections.** Accepting or dismissing a finding updates the draft return and the client's status in the portfolio.
+5. **Answers the accountant's questions** about the period ("What do I still need from the client?"), grounded in the findings and the VAT rules, with links back to the findings it relies on.
+6. **Shows the VAT return before and after the proposed corrections.** Accepting or dismissing a finding updates the draft return and the client's status in the portfolio.
 
 | Draft VAT return | Client email |
 |---|---|
