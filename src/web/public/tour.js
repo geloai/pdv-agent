@@ -66,7 +66,7 @@ const STEPS = [
   {
     target: 'tr[data-href]',
     kpi: 'Cijeli ured u jednom pogledu',
-    title: 'Odmah se vidi tko traži pažnju',
+    title: 'Odmah znate gdje je potreban pregled',
     text: 'Rok, status i otvorene stavke za svakog klijenta. Klijenti kod kojih je sve u redu ne oduzimaju vrijeme.',
     async before() { await go('#/portfelj', 'tr[data-href]'); },
   },
@@ -86,9 +86,9 @@ const STEPS = [
   },
   {
     target: '.tiles .tile:nth-child(4)',
-    kpi: '10 umjesto 30',
+    kpi: '8 od 30',
     title: 'Pregledava se samo ono što treba',
-    text: '22 knjiženja agent je potvrdio sam. Računovođa pregledava 10 nalaza umjesto svih 30 knjiženja.',
+    text: '22 knjiženja agent je potvrdio sam. Računovođa provjerava samo 8 spornih, plus 2 stavke koje u knjigama nedostaju: neproknjiženi eRačun i plaćanje bez računa.',
     async before() { await ensureRun(); },
   },
   {
@@ -245,19 +245,19 @@ function showCalculator() {
     <h3 class="calc-title">Koliko bi to uštedjelo vašem uredu?</h3>
     <p>Upišite svoje brojke za mjesečnu PDV prijavu.</p>
     <div class="calc">
-      <label>Broj klijenata<input type="number" min="1" value="120" data-k="klijenti"></label>
+      <label>Broj klijenata<input type="number" min="1" value="200" data-k="klijenti"></label>
       <label>Minuta po klijentu danas<input type="number" min="1" value="60" data-k="prije"></label>
-      <label>Računovođa koji rade PDV<input type="number" min="1" value="4" data-k="ljudi"></label>
-      <label>Trošak sata rada (€)<input type="number" min="1" value="25" data-k="sat"></label>
+      <label>Računovođa koji rade PDV<input type="number" min="1" value="5" data-k="ljudi"></label>
+      <label>Vrijednost sata rada (€)<input type="number" min="1" value="35" data-k="sat"></label>
     </div>
     <div class="calc-agent">S agentom: <b id="c-a"></b> po klijentu (samo pregled odstupanja)</div>
+    <div class="calc-hero"><span class="calc-hero-num" id="c-y"></span><span>godišnje: vrijednost oslobođenog vremena</span></div>
     <div class="calc-out">
+      <div><span class="calc-big" id="c-m"></span><span>mjesečno</span></div>
       <div><span class="calc-big" id="c-h"></span><span>sati mjesečno manje</span></div>
       <div><span class="calc-big" id="c-p"></span><span>sati mjesečno po računovođi</span></div>
-      <div><span class="calc-big" id="c-m"></span><span>mjesečno</span></div>
-      <div><span class="calc-big" id="c-y"></span><span>godišnje</span></div>
     </div>
-    <p class="tour-note">Procjena. Ušteda ovisi o broju klijenata i vremenu po klijentu, a broj računovođa pokazuje koliko se vremena oslobađa po osobi, npr. za nove klijente bez novog zapošljavanja. Točne brojke mjere se zajedno na vašim procesima.</p>
+    <p class="tour-note">Procjena. Ušteda ovisi o broju klijenata i vremenu po klijentu. Broj računovođa pokazuje koliko se vremena oslobađa po osobi, za nove klijente bez novog zapošljavanja. Točne brojke mjere se zajedno na vašim procesima.</p>
     <p class="tour-note">Franko Gelo · <a href="mailto:franko.gelo1@gmail.com">franko.gelo1@gmail.com</a> · <a href="https://www.linkedin.com/in/franko-gelo-70ab3a404/" target="_blank" rel="noopener">LinkedIn</a></p>
     <div class="tour-actions">
       <button class="btn btn-sm tour-back">Natrag</button>
@@ -273,7 +273,7 @@ function showCalculator() {
     card.querySelector('#c-h').textContent = fmt(hours);
     card.querySelector('#c-p').textContent = fmt(hours / Math.max(1, v.ljudi));
     card.querySelector('#c-m').textContent = `${fmt(hours * v.sat)} €`;
-    card.querySelector('#c-y').textContent = `${fmt(hours * v.sat * 12)} €`;
+    card.querySelector('#c-y').textContent = `${fmt(hours * v.sat * 12)} €`; // hero number
   };
   inputs.forEach((x) => x.addEventListener('input', calc));
   calc();
